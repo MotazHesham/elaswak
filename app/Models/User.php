@@ -13,11 +13,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\Models\Media;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
     use SoftDeletes;
     use Notifiable;
+    use HasMediaTrait;
     use Auditable;
 
     public $table = 'users';
@@ -27,6 +31,10 @@ class User extends Authenticatable
         'last_name',
         'email',
         'phone',
+    ];
+
+    protected $appends = [
+        'photo',
     ];
 
     protected $hidden = [
@@ -76,6 +84,12 @@ class User extends Authenticatable
         return $this->roles()->where('id', 1)->exists();
     }
 
+    public function registerMediaConversions(Media $media = null)
+    {
+        $this->addMediaConversion('thumb')->fit('crop', 50, 50);
+        $this->addMediaConversion('preview')->fit('crop', 120, 120);
+    }
+
     public function userProductRates()
     {
         return $this->hasMany(ProductRate::class, 'user_id', 'id');
@@ -121,6 +135,18 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    public function getPhotoAttribute()
+    {
+        $file = $this->getMedia('photo')->last();
+        if ($file) {
+            $file->url       = $file->getUrl();
+            $file->thumbnail = $file->getUrl('thumb');
+            $file->preview   = $file->getUrl('preview');
+        }
+
+        return $file;
     }
 
     public function getEmailVerifiedAtAttribute($value)

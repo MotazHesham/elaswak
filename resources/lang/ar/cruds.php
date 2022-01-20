@@ -79,6 +79,8 @@ return [
             'address_helper'           => ' ',
             'user_type'                => 'User Type',
             'user_type_helper'         => ' ',
+            'photo'                    => 'Photo',
+            'photo_helper'             => ' ',
         ],
     ],
     'productManagement' => [

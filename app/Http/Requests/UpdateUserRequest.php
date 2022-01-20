@@ -56,6 +56,9 @@ class UpdateUserRequest extends FormRequest
                 'required',
                 'array',
             ],
+            'photo' => [
+                'required',
+            ],
         ];
     }
 }
