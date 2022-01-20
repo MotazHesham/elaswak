@@ -59,6 +59,9 @@ class StoreUserRequest extends FormRequest
                 'required',
                 'array',
             ],
+            'photo' => [
+                'required',
+            ],
         ];
     }
 }

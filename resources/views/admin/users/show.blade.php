@@ -107,6 +107,18 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.user.fields.photo') }}
+                        </th>
+                        <td>
+                            @if($user->photo)
+                                <a href="{{ $user->photo->getUrl() }}" target="_blank" style="display: inline-block">
+                                    <img src="{{ $user->photo->getUrl('thumb') }}">
+                                </a>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.user.fields.email_verified_at') }}
                         </th>
                         <td>
