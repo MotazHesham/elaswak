@@ -27,11 +27,12 @@ class UpdateUserRequest extends FormRequest
             ],
             'email' => [
                 'required',
-                'unique:users,email,' . request()->route('user')->id,
+                'unique:users,email,' . request()->user_id,
             ],
             'phone' => [
-                'string',
                 'required',
+                'size:10',
+                'regex:/(05)[0-9]{8}/', 
             ],
             'district_id' => [
                 'required',

@@ -19,7 +19,7 @@ class UsersTableSeeder extends Seeder
                 'phone'          => '',
                 'zip_code'       => '',
                 'address'        => '',
-                'user_type'      => '',
+                'user_type'      => 'staff',
             ],
         ];
 

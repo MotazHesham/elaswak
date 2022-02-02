@@ -8,12 +8,18 @@ use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
 use App\Models\User;
+use App\Models\City;
+use App\Models\District;
 use Gate;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Response; 
+use App\Http\Controllers\Traits\MediaUploadingTrait;  
+use Alert;
 
 class ClientsController extends Controller
 {
+    use MediaUploadingTrait;
+
     public function index()
     {
         abort_if(Gate::denies('client_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -27,15 +33,40 @@ class ClientsController extends Controller
     {
         abort_if(Gate::denies('client_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $name = 'name_' . app()->getLocale();
+        $districts = District::pluck($name, 'id')->prepend(trans('global.pleaseSelect'), ''); 
 
-        return view('admin.clients.create', compact('users'));
+        return view('admin.clients.create', compact('districts'));
     }
 
     public function store(StoreClientRequest $request)
     {
-        $client = Client::create($request->all());
+        $user = User::create([
+            'name' => $request->name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'user_type' => 'client', 
+            'phone' => $request->phone,  
+            'district_id' => $request->district_id,  
+            'city_id' => $request->city_id,  
+            'zip_code' => $request->zip_code,  
+            'address' => $request->address,  
+        ]);  
+        
+        if ($request->input('photo', false)) {
+            $user->addMedia(storage_path('tmp/uploads/' . basename($request->input('photo'))))->toMediaCollection('photo');
+        }
 
+        if ($media = $request->input('ck-media', false)) {
+            Media::whereIn('id', $media)->update(['model_id' => $user->id]);
+        }
+
+        $client = Client::create([
+            'user_id' => $user->id,
+        ]);
+
+        Alert::success('تم بنجاح', 'تم إضافة المستخدم بنجاح ');
         return redirect()->route('admin.clients.index');
     }
 
@@ -43,17 +74,46 @@ class ClientsController extends Controller
     {
         abort_if(Gate::denies('client_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $name = 'name_' . app()->getLocale();
+        
+        $districts = District::pluck($name, 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $cities = City::pluck($name, 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $client->load('user');
 
-        return view('admin.clients.edit', compact('client', 'users'));
+        return view('admin.clients.edit', compact('client', 'districts','cities'));
     }
 
     public function update(UpdateClientRequest $request, Client $client)
-    {
-        $client->update($request->all());
+    { 
+        
+        $user = User::find($request->user_id);
 
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password == null ? $user->password : bcrypt($request->password), 
+            'phone' => $request->phone,   
+            'last_name' => $request->last_name,  
+            'district_id' => $request->district_id,  
+            'city_id' => $request->city_id,  
+            'zip_code' => $request->zip_code,  
+            'address' => $request->address,  
+        ]);
+
+        if ($request->input('photo', false)) {
+            if (!$user->photo || $request->input('photo') !== $user->photo->file_name) {
+                if ($user->photo) {
+                    $user->photo->delete();
+                }
+                $user->addMedia(storage_path('tmp/uploads/' . basename($request->input('photo'))))->toMediaCollection('photo');
+            }
+        } elseif ($user->photo) {
+            $user->photo->delete();
+        }
+
+        Alert::success('تم بنجاح', 'تم تعديل بيانات المستخدم بنجاح ');
         return redirect()->route('admin.clients.index');
     }
 
@@ -72,6 +132,7 @@ class ClientsController extends Controller
 
         $client->delete();
 
+        Alert::success('تم بنجاح', 'تم  حذف المستخدم بنجاح ');
         return back();
     }
 

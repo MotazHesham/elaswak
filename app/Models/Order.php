@@ -83,12 +83,12 @@ class Order extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->hasMany(OrderProduct::class);
     }
 
     public function offers()
     {
-        return $this->belongsToMany(Offer::class);
+        return $this->hasMany(OrderOffer::class);
     }
 
     protected function serializeDate(DateTimeInterface $date)

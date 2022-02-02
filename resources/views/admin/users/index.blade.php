@@ -76,8 +76,10 @@
                                 {{ $user->phone ?? '' }}
                             </td>
                             <td>
-                                <span style="display:none">{{ $user->approved ?? '' }}</span>
-                                <input type="checkbox" disabled="disabled" {{ $user->approved ? 'checked' : '' }}>
+                                <label class="c-switch c-switch-pill c-switch-success">
+                                    <input onchange="update_approved(this)" value="{{$user->id}}" type="checkbox" class="c-switch-input" {{ ($user->approved ? 'checked' : null) }}>
+                                    <span class="c-switch-slider"></span>
+                                </label>
                             </td>
                             <td>
                                 {{ $user->city->name_ar ?? '' }}

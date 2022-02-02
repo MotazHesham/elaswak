@@ -53,18 +53,6 @@ class UpdateOrderRequest extends FormRequest
                 'string',
                 'required',
             ],
-            'products.*' => [
-                'integer',
-            ],
-            'products' => [
-                'array',
-            ],
-            'offers.*' => [
-                'integer',
-            ],
-            'offers' => [
-                'array',
-            ],
             'payment_type' => [
                 'required',
             ],

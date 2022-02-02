@@ -97,26 +97,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.order.fields.products') }}
-                        </th>
-                        <td>
-                            @foreach($order->products as $key => $products)
-                                <span class="label label-info">{{ $products->name }}</span>
-                            @endforeach
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.order.fields.offers') }}
-                        </th>
-                        <td>
-                            @foreach($order->offers as $key => $offers)
-                                <span class="label label-info">{{ $offers->name }}</span>
-                            @endforeach
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.order.fields.payment_type') }}
                         </th>
                         <td>

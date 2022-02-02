@@ -17,6 +17,45 @@ class StoreSupplierRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => [
+                'string',
+                'required',
+            ],
+            'last_name' => [
+                'string',
+                'required',
+            ],
+            'email' => [
+                'required',
+                'unique:users',
+            ],
+            'password' => [
+                'required',
+            ],
+            'phone' => [
+                'required',
+                'size:10',
+                'regex:/(05)[0-9]{8}/', 
+            ],
+            'district_id' => [
+                'required',
+                'integer',
+            ],
+            'city_id' => [
+                'required',
+                'integer',
+            ],
+            'zip_code' => [
+                'string',
+                'required',
+            ],
+            'address' => [
+                'string',
+                'required',
+            ], 
+            'photo' => [
+                'required',
+            ],
             'company_name' => [
                 'string',
                 'required',
@@ -36,11 +75,7 @@ class StoreSupplierRequest extends FormRequest
             'licence_expiry' => [
                 'required',
                 'date_format:' . config('panel.date_format'),
-            ],
-            'user_id' => [
-                'required',
-                'integer',
-            ],
+            ], 
         ];
     }
 }

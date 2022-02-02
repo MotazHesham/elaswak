@@ -15,11 +15,19 @@ use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
+use Alert;
 
 class UsersController extends Controller
 {
     use MediaUploadingTrait;
 
+    public function update_approved(Request $request){
+        $user = User::find($request->id);
+        $user->approved = $request->status;
+        $user->save();
+        return 1; 
+    }
+    
     public function index()
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -54,6 +62,7 @@ class UsersController extends Controller
             Media::whereIn('id', $media)->update(['model_id' => $user->id]);
         }
 
+        Alert::success('تم بنجاح', 'تم إضافة المستخدم بنجاح ');
         return redirect()->route('admin.users.index');
     }
 
@@ -87,6 +96,7 @@ class UsersController extends Controller
             $user->photo->delete();
         }
 
+        Alert::success('تم بنجاح', 'تم تعديل بيانات المستخدم بنجاح ');
         return redirect()->route('admin.users.index');
     }
 
@@ -105,6 +115,7 @@ class UsersController extends Controller
 
         $user->delete();
 
+        Alert::success('تم بنجاح', 'تم  حذف المستخدم بنجاح ');
         return back();
     }
 

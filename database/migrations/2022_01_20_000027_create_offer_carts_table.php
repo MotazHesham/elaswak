@@ -10,6 +10,8 @@ class CreateOfferCartsTable extends Migration
     {
         Schema::create('offer_carts', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->Integer('quantity');
+            $table->decimal('total_cost', 15, 2);
             $table->timestamps();
         });
     }

@@ -121,26 +121,6 @@
                             </a>
                         </li>
                     @endcan
-                    @can('product_favorite_access')
-                        <li class="c-sidebar-nav-item">
-                            <a href="{{ route("admin.product-favorites.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/product-favorites") || request()->is("admin/product-favorites/*") ? "c-active" : "" }}">
-                                <i class="fa-fw fas fa-heart c-sidebar-nav-icon">
-
-                                </i>
-                                {{ trans('cruds.productFavorite.title') }}
-                            </a>
-                        </li>
-                    @endcan
-                    @can('product_cart_access')
-                        <li class="c-sidebar-nav-item">
-                            <a href="{{ route("admin.product-carts.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/product-carts") || request()->is("admin/product-carts/*") ? "c-active" : "" }}">
-                                <i class="fa-fw fas fa-shopping-cart c-sidebar-nav-icon">
-
-                                </i>
-                                {{ trans('cruds.productCart.title') }}
-                            </a>
-                        </li>
-                    @endcan
                 </ul>
             </li>
         @endcan
@@ -172,27 +152,7 @@
                                 {{ trans('cruds.offerRate.title') }}
                             </a>
                         </li>
-                    @endcan
-                    @can('offer_favorite_access')
-                        <li class="c-sidebar-nav-item">
-                            <a href="{{ route("admin.offer-favorites.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/offer-favorites") || request()->is("admin/offer-favorites/*") ? "c-active" : "" }}">
-                                <i class="fa-fw fas fa-heart c-sidebar-nav-icon">
-
-                                </i>
-                                {{ trans('cruds.offerFavorite.title') }}
-                            </a>
-                        </li>
-                    @endcan
-                    @can('offer_cart_access')
-                        <li class="c-sidebar-nav-item">
-                            <a href="{{ route("admin.offer-carts.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/offer-carts") || request()->is("admin/offer-carts/*") ? "c-active" : "" }}">
-                                <i class="fa-fw fas fa-shopping-cart c-sidebar-nav-icon">
-
-                                </i>
-                                {{ trans('cruds.offerCart.title') }}
-                            </a>
-                        </li>
-                    @endcan
+                    @endcan 
                 </ul>
             </li>
         @endcan

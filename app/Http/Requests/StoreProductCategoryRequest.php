@@ -21,6 +21,9 @@ class StoreProductCategoryRequest extends FormRequest
                 'string',
                 'required',
             ],
+            'photo' => [
+                'required',
+            ],
         ];
     }
 }

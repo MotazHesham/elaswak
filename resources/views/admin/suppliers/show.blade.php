@@ -33,6 +33,98 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.user.fields.name') }}
+                        </th>
+                        <td>
+                            {{ $supplier->user->name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.last_name') }}
+                        </th>
+                        <td>
+                            {{ $supplier->user->last_name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.email') }}
+                        </th>
+                        <td>
+                            {{ $supplier->user->email }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.phone') }}
+                        </th>
+                        <td>
+                            {{ $supplier->user->phone }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.approved') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $supplier->user->approved ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.district') }}
+                        </th>
+                        <td>
+                            {{ $supplier->user->district->name_ar ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.city') }}
+                        </th>
+                        <td>
+                            {{ $supplier->user->city->name_ar ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.zip_code') }}
+                        </th>
+                        <td>
+                            {{ $supplier->user->zip_code }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.address') }}
+                        </th>
+                        <td>
+                            {{ $supplier->user->address }}
+                        </td>
+                    </tr> 
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.photo') }}
+                        </th>
+                        <td>
+                            @if($supplier->user->photo)
+                                <a href="{{ $supplier->user->photo->getUrl() }}" target="_blank" style="display: inline-block">
+                                    <img src="{{ $supplier->user->photo->getUrl('thumb') }}">
+                                </a>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.email_verified_at') }}
+                        </th>
+                        <td>
+                            {{ $supplier->user->email_verified_at }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.supplier.fields.commerical_num') }}
                         </th>
                         <td>
@@ -62,15 +154,7 @@
                         <td>
                             {{ $supplier->licence_expiry }}
                         </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.supplier.fields.user') }}
-                        </th>
-                        <td>
-                            {{ $supplier->user->name ?? '' }}
-                        </td>
-                    </tr>
+                    </tr> 
                 </tbody>
             </table>
             <div class="form-group">

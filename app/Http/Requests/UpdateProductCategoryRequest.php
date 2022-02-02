@@ -21,6 +21,9 @@ class UpdateProductCategoryRequest extends FormRequest
                 'string',
                 'required',
             ],
+            'photo' => [
+                'required',
+            ],
         ];
     }
 }

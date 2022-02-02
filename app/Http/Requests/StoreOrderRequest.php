@@ -11,7 +11,7 @@ class StoreOrderRequest extends FormRequest
 {
     public function authorize()
     {
-        return Gate::allows('order_create');
+        return true;
     }
 
     public function rules()
@@ -30,8 +30,9 @@ class StoreOrderRequest extends FormRequest
                 'required',
             ],
             'phone' => [
-                'string',
                 'required',
+                'size:10',
+                'regex:/(05)[0-9]{8}/', 
             ],
             'discount_code' => [
                 'string',
@@ -52,28 +53,7 @@ class StoreOrderRequest extends FormRequest
             'address' => [
                 'string',
                 'required',
-            ],
-            'products.*' => [
-                'integer',
-            ],
-            'products' => [
-                'array',
-            ],
-            'offers.*' => [
-                'integer',
-            ],
-            'offers' => [
-                'array',
-            ],
-            'payment_type' => [
-                'required',
-            ],
-            'payment_status' => [
-                'required',
-            ],
-            'delivery_status' => [
-                'required',
-            ],
+            ], 
         ];
     }
 }

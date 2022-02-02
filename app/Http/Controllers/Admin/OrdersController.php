@@ -8,10 +8,9 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\City;
 use App\Models\District;
-use App\Models\Offer;
-use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Order;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -96,18 +95,12 @@ class OrdersController extends Controller
 
         $cities = City::pluck('name_ar', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $products = Product::pluck('name', 'id');
-
-        $offers = Offer::pluck('name', 'id');
-
-        return view('admin.orders.create', compact('cities', 'districts', 'offers', 'products', 'users'));
+        return view('admin.orders.create', compact('cities', 'districts', 'users'));
     }
 
     public function store(StoreOrderRequest $request)
     {
         $order = Order::create($request->all());
-        $order->products()->sync($request->input('products', []));
-        $order->offers()->sync($request->input('offers', []));
 
         return redirect()->route('admin.orders.index');
     }
@@ -122,20 +115,14 @@ class OrdersController extends Controller
 
         $cities = City::pluck('name_ar', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $products = Product::pluck('name', 'id');
-
-        $offers = Offer::pluck('name', 'id');
-
         $order->load('user', 'district', 'city', 'products', 'offers');
 
-        return view('admin.orders.edit', compact('cities', 'districts', 'offers', 'order', 'products', 'users'));
+        return view('admin.orders.edit', compact('cities', 'districts', 'order', 'users'));
     }
 
     public function update(UpdateOrderRequest $request, Order $order)
     {
         $order->update($request->all());
-        $order->products()->sync($request->input('products', []));
-        $order->offers()->sync($request->input('offers', []));
 
         return redirect()->route('admin.orders.index');
     }
