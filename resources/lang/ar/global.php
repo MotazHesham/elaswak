@@ -323,6 +323,17 @@ return [
     'leave'                          => 'مغادرة',
     'calendar'                       => 'التقويم',
     'messenger'                      => 'مراسل',
+    'payment_type' => [
+        'Cash On Delivery' => 'Cash On Delivery',
+        'Credit Card'   => 'Credit Card',
+    ],
+    'delivery_status' => [
+        'Pending'     => 'قيد الأنتظار',
+        'On Review'   => 'قيد المراجعة',
+        'On Delivery' => 'مع مندوب الشحن',
+        'Delivered'   => 'نم التوصيل',
+        'Canceled'    => 'تم الألغاء',
+    ],
     'flash' => [
         '404' => 'لم يتم العثور علي اي بيانات',
         'error' => 'حدث خطأ حاول فيما بعد !!',

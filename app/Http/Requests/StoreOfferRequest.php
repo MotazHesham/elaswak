@@ -35,10 +35,7 @@ class StoreOfferRequest extends FormRequest
             ],
             'tags' => [
                 'array',
-            ],
-            'products.*' => [
-                'integer',
-            ],
+            ], 
             'products' => [
                 'required',
                 'array',

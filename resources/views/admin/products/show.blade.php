@@ -49,6 +49,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.product.fields.quantity') }}
+                        </th>
+                        <td>
+                            {{ $product->quantity }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.product.fields.category') }}
                         </th>
                         <td>

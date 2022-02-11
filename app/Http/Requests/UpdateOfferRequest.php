@@ -35,10 +35,7 @@ class UpdateOfferRequest extends FormRequest
             ],
             'tags' => [
                 'array',
-            ],
-            'products.*' => [
-                'integer',
-            ],
+            ], 
             'products' => [
                 'required',
                 'array',

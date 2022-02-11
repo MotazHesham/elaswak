@@ -323,6 +323,17 @@ return [
     'leave'                          => 'Leave',
     'calendar'                       => 'Calendar',
     'messenger'                      => 'Messenger',
+    'payment_type' => [
+        'Cash On Delivery' => 'Cash On Delivery',
+        'Credit Card'   => 'Credit Card',
+    ],
+    'delivery_status' => [
+        'Pending'     => 'Pending',
+        'On Review'   => 'On Review',
+        'On Delivery' => 'On Delivery',
+        'Delivered'   => 'Delivered',
+        'Canceled'    => 'Canceled',
+    ],
     'flash' => [
         '404' => 'Not Found !!',
         'error' => 'Something Went Wrong !!',

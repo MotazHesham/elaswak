@@ -22,9 +22,10 @@
                         <h4 class="quantity">الكميه</h4>
                         <div id="field1">
                             <button type="button" id="sub" class="sub">-</button>
-                            <input class="quantity-number" type="number" name="quantity" id="1" value="1" min="1" max="" />
+                            <input class="quantity-number" type="number" name="quantity" id="1" value="1" min="1" max="{{ $product->quantity }}" />
                             <button type="button" id="add" class="add">+</button>
-                        </div>
+                        </div> 
+                        <small class="text-center">المتاح في المخزن ({{ $product->quantity }})</small>
                         <div class="buttons d-flex buy-buttons-wrap">
                             <button type="submit" id="addtobasket" class="btn buy-button add-to-basket-btn shadow-none">
                                 <p id="add-p" class="add-basketp">أضف إلى السله</p>
@@ -44,7 +45,7 @@
                     @else
                         <i class="far fa-heart product-fav" data-id="{{$product->id}}" data-type="product"></i>
                     @endauth
-                    <img src="{{ $product->photo->getUrl() }}" id="main_product_image" width="" />
+                    <img src="@if($product->photo) {{ $product->photo->getUrl() }} @endif" id="main_product_image" width="" />
                 </div>
                 <div class="customer-opinins-div">
                     <div class="customers-opinins">
@@ -123,7 +124,7 @@
                                 @else
                                     <i class="far fa-heart product-fav" data-id="{{$product->id}}" data-type="product"></i>
                                 @endauth
-                                <a class="" href="{{ route('frontend.product',$product->id)}}"><img src="{{ $product->photo->getUrl()}}" /></a>
+                                <a class="" href="{{ route('frontend.product',$product->id)}}"><img src="@if($product->photo) {{ $product->photo->getUrl()}} @endif" /></a>
                             </div>
                             <a>
                                 <p class="product-name">{{ $product->name }}</p>

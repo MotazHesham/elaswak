@@ -34,4 +34,8 @@ class OrderProduct extends Model
     {
         return $date->format('Y-m-d H:i:s');
     }
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

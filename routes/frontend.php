@@ -49,6 +49,8 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
 
         // profile
         Route::get('profile','ProfileController@profile')->name('profile');
+        Route::post('profile/update','ProfileController@profile_update')->name('profile.update');
+        Route::post('profile/update_password','ProfileController@update_password')->name('profile.update_password');
     });
 
 });

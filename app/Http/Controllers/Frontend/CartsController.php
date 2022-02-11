@@ -28,7 +28,7 @@ class CartsController extends Controller
             $product = Product::findOrFail($request->product_id);
             $cart = ProductCart::where('product_id',$request->product_id)->where('user_id',$user->id)->first();
             if($cart){
-                $cart->quantity += $request->quantity;
+                $cart->quantity = $request->quantity;
                 $cart->total_cost = $cart->quantity * $product->price;
                 $cart->save();
             }else{
@@ -45,9 +45,9 @@ class CartsController extends Controller
             
         }elseif($request->type == 'offer'){
             $offer = Offer::findOrFail($request->offer_id);
-            $cart = OfferCart::where('offer_id',$request->offer_id)->where('user_id',$user->id)->first();
+            $cart = OfferCart::where('offer_id',$request->offer_id)->where('user_id',$user->id)->first();  
             if($cart){
-                $cart->quantity += $request->quantity;
+                $cart->quantity = $request->quantity;
                 $cart->total_cost = $cart->quantity * $offer->price;
                 $cart->save();
             }else{
@@ -86,7 +86,14 @@ class CartsController extends Controller
             $cart->quantity += $request->num;
             $cart->total_cost = $cart->quantity * $price;
             $cart->save();
-            return $cart->total_cost; 
+            $data = [
+                'quantity' => $cart->quantity,
+                'cost' => $cart->total_cost,
+                'total_cost' => OfferCart::where('user_id',$user->id)->sum('total_cost') + 
+                                ProductCart::where('user_id',$user->id)->sum('total_cost'),
+            ];
+
+            return $data; 
         }
     }
 
@@ -100,6 +107,7 @@ class CartsController extends Controller
             $cart = OfferCart::where('offer_id',$request->id)->where('user_id',$user->id)->first();  
         } 
         $cart->delete();
-        return 1;
+        
+        return OfferCart::where('user_id',$user->id)->sum('total_cost') + ProductCart::where('user_id',$user->id)->sum('total_cost');
     }
 }

@@ -6,10 +6,10 @@ $(document).ready(function(){
     
     
     
-    $('.slider-category-name').hide();  
-  $('.owl-one .item').hover( function () {
-    $(this).find('.slider-category-name').slideToggle(200);  
-  });
+  //   $('.slider-category-name').hide();  
+  // $('.owl-one .item').hover( function () {
+  //   $(this).find('.slider-category-name').slideToggle(200);  
+  // });
 
     
      $('.cat-menu-sign').on('click', function(e) {

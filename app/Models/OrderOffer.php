@@ -34,4 +34,10 @@ class OrderOffer extends Model
     {
         return $date->format('Y-m-d H:i:s');
     }
+    
+    public function offer()
+    {
+        return $this->belongsTo(Offer::class);
+    }
+
 }

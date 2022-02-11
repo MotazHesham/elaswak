@@ -63,7 +63,7 @@
                         </th>
                         <td>
                             @foreach($offer->tags as $key => $tag)
-                                <span class="label label-info">{{ $tag->name }}</span>
+                                <span class="badge badge-info">{{ $tag->name }}</span>
                             @endforeach
                         </td>
                     </tr>
@@ -78,14 +78,15 @@
                                 </a>
                             @endif
                         </td>
-                    </tr>
+                    </tr> 
                     <tr>
                         <th>
                             {{ trans('cruds.offer.fields.products') }}
                         </th>
                         <td>
                             @foreach($offer->products as $key => $products)
-                                <span class="label label-info">{{ $products->name }}</span>
+                                <div class="badge badge-info">{{ $products->name }} 
+                                    ({{ $products->pivot->quantity }})</div>
                             @endforeach
                         </td>
                     </tr>

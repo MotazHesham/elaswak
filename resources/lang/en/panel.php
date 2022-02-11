@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'site_title' => 'elaswak',
+    'site_title' => 'منطقة العروض',
 ];

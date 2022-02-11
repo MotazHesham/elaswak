@@ -4,56 +4,19 @@
 
 
     <div class="hp-hero-section container">
-        <div class="row">
-            <div class="col-md-3">
-
-                <form action="{{ route('frontend.products') }}">
-                    <div class="search-filters">
-                        <p>تصنيف العروض</p>
-                        <div>
-                            <label class="radio-search">الأحدث
-                                <input type="radio" name="sorting" value="latest" checked />
-                                <span class="checkmark"></span>
-                            </label>
-                            <label class="radio-search">الأقدم
-                                <input type="radio" name="sorting" value="oldest" />
-                                <span class="checkmark"></span>
-                            </label>
-                            <label class="radio-search">من الأرخص للأغلى
-                                <input type="radio" name="sorting" value="cheapest" />
-                                <span class="checkmark"></span>
-                            </label>
-                            <label class="radio-search">من الأغلى للأرخص
-                                <input type="radio" name="sorting" value="expensive" />
-                                <span class="checkmark"></span>
-                            </label>
-                        </div>
-                        <div class="slider-range-wrap">
-                            <label class="price" for="amount">السعر: </label>
-                            <div id="slider-range"></div>
-                            <div class="slider-titles">
-                                <input type="text" id="amount-max" placeholder="الحد الأقصى" readonly name="price_end"
-                                    style="border: 0; font-weight: bold">
-                                <input type="text" id="amount-min" placeholder="الحد الأدنى" readonly name="price_start"
-                                    style="border: 0; font-weight: bold" />
-                            </div>
-                            <button class="price-range-search" id="price-range-submit" type="submit">
-                                تم
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-9">
+        <div class="row"> 
+            <div class="col-md-12">
                 <div class="row">
-                    <img class="hp-hero-section-img" src="{{ $slider->slider->getUrl() ?? '' }}" />
+                    @if($slider)
+                        <img class="hp-hero-section-img" src="{{ $slider->slider->getUrl('preview') ?? '' }}" />
+                    @endif
                 </div>
                 <div class="row links-container">
                     <div class="col-lg-6 link-div">
-                        <a class="link-underline blue" href="#">قسم العروض</a>
+                        <a class="link-underline blue" href="{{ route('frontend.offers') }}">قسم العروض</a>
                     </div>
                     <div class="col-lg-6 link-div">
-                        <a class="link-underline pink" href="#">قسم المنتجات</a>
+                        <a class="link-underline pink" href="{{ route('frontend.products') }}">قسم المنتجات</a>
                     </div>
                 </div>
             </div>
@@ -80,8 +43,8 @@
                             @else
                                 <i class="far fa-heart product-fav" data-id="{{ $offer->id }}" data-type="product"></i>
                             @endauth
-                            <a class="" href="{{ route('frontend.offer', $offer->id) }}"><img
-                                    src="{{ $offer->photo->getUrl() }}" /></a>
+                            <a class="" href="{{ route('frontend.offer', $offer->id) }}">
+                                <img src="@if($offer->photo) {{ $offer->photo->getUrl() }} @endif" /></a>
                         </div>
                         <a class="" href="{{ route('frontend.offer', $offer->id) }}">
                             <p class="product-name">{{ $offer->name }}</p>
@@ -116,7 +79,7 @@
                         <a class="" href="{{ route('frontend.product', $product->id) }}">
                             <div class="product-card">
                                 <div class="product-img">
-                                    <img src="{{ $product->photo->getUrl() }}" />
+                                    <img src="@if($product->photo) {{ $product->photo->getUrl() }} @endif" />
                                     @auth
                                         @php
                                             $fav = \App\Models\ProductFavorite::where('product_id', $product->id)
@@ -147,9 +110,9 @@
         <div class="owl-one owl-carousel owl-theme owl-container">
             @foreach ($categories as $category)
                 <div class="item">
-                    <img class="slider-product" src="{{ $category->photo->getUrl() }}" />
+                    <img class="slider-product" src="{{ $category->photo->getUrl('preview') }}" />
                     <div class="slider-category-name">
-                        <a href="categories.html">مأكولات</a>
+                        <a href="categories.html">{{ $category->name }}</a>
                     </div>
                 </div>
             @endforeach

@@ -47,7 +47,7 @@ class Offer extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null)
     {
         $this->addMediaConversion('thumb')->fit('crop', 50, 50);
-        $this->addMediaConversion('preview')->fit('crop', 120, 120);
+        $this->addMediaConversion('preview')->fit('crop', 450, 300);
     }
 
     public function offerOfferRates()
@@ -79,7 +79,7 @@ class Offer extends Model implements HasMedia
 
     public function products()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class)->withPivot(['quantity']);
     }
 
     public function supplier()

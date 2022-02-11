@@ -35,12 +35,17 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="{{ asset('frontend/js/selectize.js')}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/selectize.css') }}" />
     <!--jquery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 
     <!--java scripts-->
     <script src="{{ asset('frontend/js/myScript.js') }}"></script>
+    
+    <!--My Custom Style-->
     <style>
         .alert-notmateched {
             color: white;
@@ -94,7 +99,11 @@
             border-color: #e55353;
         }
 
+        .orders-store-icon{
+            width: 600px
+        }
     </style>
+
     @yield('styles')
 </head>
 
@@ -113,7 +122,11 @@
         $categories2 = \App\Models\ProductCategory::orderBy('created_at', 'desc')
             ->get()
             ->toArray();
-        $halved = array_chunk($categories2, ceil(count($categories2) / 2));
+
+        if(count($categories2) > 0){
+            $halved = array_chunk($categories2, ceil(count($categories2) / 2));
+        } 
+
         if ($user) {
             $productCarts = \App\Models\ProductCart::with('product')
                 ->where('user_id', $user->id)
@@ -123,266 +136,23 @@
                 ->where('user_id', $user->id)
                 ->orderBy('created_at', 'desc')
                 ->get();
-        }
+        } 
     @endphp
 
     <form id="logoutform" action="{{ route('logout') }}" method="POST" style="display: none;">
         {{ csrf_field() }}
     </form>
+
     <div class="main-container">
-        <header>
-            <div class="top-bar">
-                <div class="container row">
-                    <div class="top-bar-right col-6">
-                        @auth
-                            <div class="dropdown mobile-sign account-sign">
-                                <button class="btn btn-secondary dropdown-toggle shadow-none" type="button"
-                                    id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                                    onclick="this.blur();">
-                                    {{ $user->name . ' ' . $user->last_name }}
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a class="dropdown-item" href="{{ route('frontend.profile') }}">
-                                            <i class="far fa-user client-menu-icon"></i>
-                                            حسابي
-                                        </a></li>
 
-                                    <li><a class="dropdown-item" href="{{ route('frontend.orders.index') }}">
-                                            <img class="client-menu-icon"
-                                                src="{{ asset('frontend/img/track-orders.png') }}">
-                                            تتبع الطلبات
-                                        </a></li>
-
-                                    <li><a class="dropdown-item signout-item" href="#"
-                                            onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
-                                            <i class="fas fa-sign-out-alt client-menu-icon"></i>
-                                            تسجيل الخروج
-                                        </a></li>
-                                </ul>
-                            </div>
-                        @else
-                            <a class="top-bar-links" href="{{ route('login') }}">
-                                تسجيل الدخول
-                            </a>
-                        @endauth
-                    </div>
-                    <div class="top-bar-left col-6">
-                        <div class="top-bar-social desktop-top-bar-left">
-                            <a class="top-bar-links" href="tel:{{ $setting->phone ?? '' }}">
-                                <i class="fas fa-phone-alt"></i>
-                                {{ $setting->phone ?? '' }}
-                            </a>
-                            <a class="top-bar-links" href="mailto:{{ $setting->email ?? '' }}">
-                                <i class="fas fa-envelope"></i>
-                                {{ $setting->email ?? '' }}
-                            </a>
-                        </div>
-                        <div class="top-bar-social mobile-top-bar-left">
-                            <a class="top-bar-links" href="tel:{{ $setting->phone ?? '' }}">
-                                <i class="fas fa-phone-alt"></i>
-                            </a>
-                            <a class="top-bar-links" href="mailto:{{ $setting->email ?? '' }}">
-                                <i class="fas fa-envelope"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="header">
-                <div class="container row">
-                    <div class="col-3 header-icons">
-                        <div class="desktop-menu">
-                            <a href="#"><img class="header-signs cat-menu-sign"
-                                    src="{{ asset('frontend/img/menu-sign.png') }}" /></a>
-                            <div class="categories-menu categories-menu-hide">
-                                <ul class="right-cat-links">
-                                    @foreach ($halved[0] as $category)
-                                        <li><a
-                                                href="{{ route('frontend.offers', ['category_id' => $category['id']]) }}">{{ $category['name'] }}</a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                                <ul class="left-cat-links">
-                                    @foreach ($halved[0] as $category)
-                                        <li><a
-                                                href="{{ route('frontend.offers', ['category_id' => $category['id']]) }}">{{ $category['name'] }}</a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            <a href="#" class="shopping-cart-wrap">
-                                <img class="header-signs shopping-cart-icon"
-                                    src="{{ asset('frontend/img/shopping-cart.png') }}" />
-                                @auth
-                                    <p class="orders-quantity">
-                                        {{ $productCarts->count() + $offerCarts->count() }}
-                                    </p>
-                                @endauth
-                            </a>
-                            <div class="orders-store-icon orders-pop-hide">
-                                @auth
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="partials-scrollable">
-                                                <div class="text-center mt-2">
-                                                    @if($productCarts->count() > 0)
-                                                        <a class="btn btn-outline-filter btn-block rounded-pill btn-lg"
-                                                            href="#">المنتجات</a>
-                                                    @endif
-                                                </div>
-
-                                                @foreach ($productCarts as $cart)
-                                                    <div class="order-info-store-icon">
-                                                        <div class="order-store-icon-thumbnail">
-                                                            <img src="{{ $cart->product->photo->getUrl() ?? '' }}" />
-                                                        </div>
-                                                        <div class="name-price-order">
-                                                            <p class="name-pop">{{ $cart->product->name ?? '' }}
-                                                            </p>
-                                                            <p class="price-pop">{{ $cart->product->price ?? '' }}
-                                                                SR</p>
-                                                            <p class="total-quantity">الكمية {{ $cart->quantity }}</p>
-                                                            <i class="far fa-trash-alt"
-                                                                onclick="delete_cart({{ $cart->product_id }},1,'product',{{ $cart->id }})"></i>
-                                                        </div>
-                                                    </div>
-                                                    <p class="total-price">الاجمالي: <span
-                                                            id="product-{{ $cart->id }}">{{ $cart->total_cost }}
-                                                            SR</span></p>
-
-                                                    @if (!$loop->last)
-                                                        <hr>
-                                                    @endif
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="partials-scrollable">
-                                                <div class="text-center mt-2">
-                                                    @if($offerCarts->count() > 0)
-                                                        <a class="btn btn-outline-filter btn-block rounded-pill btn-lg"
-                                                            href="#">العروض</a>
-                                                    @endif
-                                                </div>
-
-                                                @foreach ($offerCarts as $cart)
-                                                    <div id="div-offer-{{ $cart->id }}">
-                                                        <div class="order-info-store-icon">
-                                                            <div class="order-store-icon-thumbnail">
-                                                                <img src="{{ $cart->offer->photo->getUrl() ?? '' }}" />
-                                                            </div>
-                                                            <div class="name-price-order">
-                                                                <p class="name-pop">{{ $cart->offer->name ?? '' }}
-                                                                </p>
-                                                                <p class="price-pop">{{ $cart->offer->price ?? '' }}
-                                                                    SR</p>
-                                                                <p class="total-quantity">الكمية {{ $cart->quantity }}
-                                                                </p>
-                                                                <i class="far fa-trash-alt"
-                                                                    onclick="delete_cart({{ $cart->offer_id }},1,'offer',{{ $cart->id }})"></i>
-                                                            </div>
-                                                        </div>
-                                                        <p class="total-price">الاجمالي: <span
-                                                                id="offer-{{ $cart->id }}">{{ $cart->total_cost }}
-                                                                SR</span></p>
-                                                        @if (!$loop->last)
-                                                            <hr>
-                                                        @endif
-
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endauth
-
-                                <div class="pay-store-link">
-                                    <a href="{{ route('frontend.carts.index') }}"><img
-                                            src="{{ asset('frontend/img/shopping-cart.png') }}" />
-                                        عرض أو تحرير عربة التسوق
-                                    </a>
-                                    <button class="pay-button" onclick="window.location.href='/payment/info';">
-                                        الدفع
-                                    </button>
-                                </div>
-                            </div>
-                            <a href="{{ route('frontend.favorites.index', ['type' => 'products']) }}"><i
-                                    class="far fa-heart header-signs"></i></a>
-                            <select class="language-select" onchange="location = this.value;">
-                                <option value="" class="arabic-lang">AR</option>
-                                <option value="">EN</option>
-                            </select>
-                        </div>
-                        <i class="fas fa-align-right mobile-menu-icon"></i>
-                        <div class="mobile-menu">
-                            <li class="cat-mobile">
-                                <a href="#"><img class="header-signs cat-menu-sign"
-                                        src="{{ asset('frontend/img/menu-sign2.png') }}" />الفئات</a>
-                            </li>
-                            <div class="categories-menu-mobile categories-menu-hide">
-                                <ul class="right-cat-links">
-                                    @foreach ($halved[0] as $category)
-                                        <li><a
-                                                href="{{ route('frontend.offers', ['category_id' => $category['id']]) }}">{{ $category['name'] }}</a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                                <ul class="left-cat-links">
-                                    @foreach ($halved[0] as $category)
-                                        <li><a
-                                                href="{{ route('frontend.offers', ['category_id' => $category['id']]) }}">{{ $category['name'] }}</a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            <li>
-                                <a href="#"><img class="header-signs"
-                                        src="{{ asset('frontend/img/shopping-cart.png') }}" />عربة التسوق</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('frontend.favorites.index', ['type' => 'products']) }}"><i
-                                        class="far fa-heart header-signs"></i>المفضلة</a>
-                            </li>
-                            <li>
-                                <select class="language-select" onchange="location = this.value;">
-                                    <option value="index.html" class="arabic-lang">AR</option>
-                                    <option value="index-en.html">EN</option>
-                                </select>
-                            </li>
-                            <div class="search-bar search-mobile">
-                                <div class="search-container">
-                                    <form action="{{ route('frontend.offers') }}">
-                                        <input type="text" placeholder="" name="search"
-                                            value="{{ $search ?? '' }}" />
-                                        <button type="submit"><i class="fa fa-search"></i></button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-9 header-left">
-                        <div class="logo-container">
-                            <a class="logo" href="{{ route('frontend.home') }}">Logo</a>
-                        </div>
-                        <div class="search-bar search-desktop">
-                            <div class="search-container">
-                                <form action="{{ route('frontend.offers') }}">
-                                    <input type="text" placeholder="" name="search" value="{{ $search ?? '' }}" />
-                                    <button type="submit"><i class="fa fa-search"></i></button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header> 
+        @include('partials.frontend_header')
 
         @yield('content')
 
         <div class="footer container-fluid">
             <div class="footer-inner row container">
                 <div class="col-lg-4">
-                    <h6 class="footer-title">شركة الأسواق</h6>
+                    <h6 class="footer-title">منطقة العروض</h6>
                     <p class="p-footer">
                         <?php echo nl2br($setting->about_us ?? ''); ?>
                     </p>
@@ -407,9 +177,9 @@
                 <div class="col-lg-4 footer-social-media">
                     <h6 class="footer-title">التواصل</h6>
                     <div class="footer-buttons">
-                        <a href="{{ $setting->whatsapp }}"><i class="fab fa-whatsapp social-media-footer"></i></a>
-                        <a href="{{ $setting->instagram }}"><i class="fab fa-instagram social-media-footer"></i></a>
-                        <a href="{{ $setting->facebook }}"><i class="fab fa-facebook-f social-media-footer"></i></a>
+                        <a href="{{ $setting->whatsapp ?? ''}}"><i class="fab fa-whatsapp social-media-footer"></i></a>
+                        <a href="{{ $setting->instagram ?? ''}}"><i class="fab fa-instagram social-media-footer"></i></a>
+                        <a href="{{ $setting->facebook ?? ''}}"><i class="fab fa-facebook-f social-media-footer"></i></a>
                     </div>
                 </div>
             </div>
@@ -468,11 +238,15 @@
                 type: type
             }, function(data) {
                 if (type == 'product') {
-                    $('#table-product-' + cart_id).html(data + ' SR')
-                    $('#product-' + cart_id).html(data + ' SR')
+                    $('#table-product-' + cart_id).html(data['cost'])
+                    $('#product-' + cart_id).html(data['cost'])
+                    $('#quantity-product-' + cart_id).html(data['quantity'])
+                    $('#cart-total-cost').html(data['total_cost']);
                 } else if (type == 'offer') {
-                    $('#table-offer-' + cart_id).html(data + ' SR')
-                    $('#offer-' + cart_id).html(data + ' SR')
+                    $('#table-offer-' + cart_id).html(data['cost'])
+                    $('#offer-' + cart_id).html(data['cost'])
+                    $('#quantity-offer-' + cart_id).html(data['quantity'])
+                    $('#cart-total-cost').html(data['total_cost']);
                 }
             });
         }
@@ -495,6 +269,7 @@
                         $('#table-tr-offer-' + cart_id).remove();
                     });
                 }
+                $('#cart-total-cost').html(data);
             });
         }
 

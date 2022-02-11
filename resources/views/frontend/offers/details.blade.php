@@ -1,7 +1,15 @@
 @extends('layouts.frontend')
 
-@section('content')
-
+@section('content') 
+    @php 
+        $quantities= [];
+        foreach($offer->products as $raw){
+            if($raw->pivot->quantity > 0){
+                $quantities[] = round($raw->quantity / $raw->pivot->quantity,0);
+            }
+        }
+        $max_qunatity =  min($quantities);
+    @endphp
     <div class="product-section container">
         <div class="row row-card">
             <div class="col-md-6">
@@ -25,9 +33,10 @@
                         <h4 class="quantity">الكميه</h4>
                         <div id="field1">
                             <button type="button" id="sub" class="sub">-</button>
-                            <input class="quantity-number" type="number" name="quantity" id="1" value="1" min="1" max="" />
+                            <input class="quantity-number" type="number" name="quantity" id="1" value="1" min="1" max="{{ $max_qunatity }}" />
                             <button type="button" id="add" class="add">+</button>
                         </div>
+                        <small class="text-center">المتاح في المخزن ({{ $max_qunatity }})</small>
                         <div class="buttons d-flex buy-buttons-wrap">
                             <button type="submit" id="addtobasket" class="btn buy-button add-to-basket-btn shadow-none">
                                 <p id="add-p" class="add-basketp">أضف إلى السله</p>
@@ -123,7 +132,7 @@
                             <div class="product-img">
                                 @auth
                                     @php
-                                        $fav = \App\Models\ProductFavorite::where('product_id', $offer->id)
+                                        $fav = \App\Models\OfferFavorite::where('offer_id', $offer->id)
                                             ->where('user_id', Auth::id())
                                             ->first();
                                     @endphp
@@ -133,7 +142,7 @@
                                     <i class="far fa-heart product-fav" data-id="{{ $offer->id }}" data-type="product"></i>
                                 @endauth
                                 <a class="" href="{{ route('frontend.offer', $offer->id) }}"><img
-                                        src="{{ $offer->photo->getUrl() }}" /></a>
+                                        src="@if($offer->photo) {{ $offer->photo->getUrl() }} @endif" /></a>
                             </div>
                             <a>
                                 <p class="product-name">{{ $offer->name }}</p>
