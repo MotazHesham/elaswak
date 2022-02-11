@@ -11,16 +11,16 @@ class ProductCart extends Model
 
     protected $dates = [
         'created_at',
-        'updated_at', 
+        'updated_at',
+        'deleted_at',
     ];
 
     protected $fillable = [
         'product_id',
         'user_id',
-        'quantity',
-        'total_cost',
         'created_at',
-        'updated_at', 
+        'updated_at',
+        'deleted_at',
     ];
 
     public function product()

@@ -17,9 +17,9 @@ class CreateOrdersTable extends Migration
             $table->string('discount_code')->nullable();
             $table->string('zip_code');
             $table->string('address');
-            $table->string('payment_type')->default('cash_on_delivery');
-            $table->string('payment_status')->default('unpaid');
-            $table->string('delivery_status')->default('pending');
+            $table->string('payment_type');
+            $table->string('payment_status');
+            $table->string('delivery_status');
             $table->string('cancel_reason')->nullable();
             $table->timestamps();
             $table->softDeletes();

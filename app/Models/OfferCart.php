@@ -11,16 +11,16 @@ class OfferCart extends Model
 
     protected $dates = [
         'created_at',
-        'updated_at', 
+        'updated_at',
+        'deleted_at',
     ];
 
     protected $fillable = [
         'offer_id',
         'user_id',
-        'quantity',
-        'total_cost',
         'created_at',
-        'updated_at', 
+        'updated_at',
+        'deleted_at',
     ];
 
     public function offer()

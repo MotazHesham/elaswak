@@ -47,7 +47,7 @@ class Slider extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null)
     {
         $this->addMediaConversion('thumb')->fit('crop', 50, 50);
-        $this->addMediaConversion('preview')->fit('crop', 1700, 600);
+        $this->addMediaConversion('preview')->fit('crop', 120, 120);
     }
 
     public function getSliderAttribute()

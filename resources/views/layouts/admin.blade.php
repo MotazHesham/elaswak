@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html @if(app()->getLocale() == 'ar') dir="rtl" @endif> 
+<html>
 
 <head>
     <meta charset="UTF-8">
@@ -22,19 +22,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.0/css/perfect-scrollbar.min.css" rel="stylesheet" />
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet" />
-    @if(app()->getLocale() == 'ar')
-        <style>
-            .c-sidebar-nav .c-sidebar-nav-dropdown-items{
-                padding-right: 8%; 
-            }
-        </style>
-    @else
-        <style>
-            .c-sidebar-nav .c-sidebar-nav-dropdown-items{
-            padding-left: 8%; 
-            }
-        </style>
-    @endif
     @yield('styles')
 </head>
 
@@ -52,13 +39,7 @@
                 <i class="fas fa-fw fa-bars"></i>
             </button>
 
-            <ul class="c-header-nav @if(app()->getLocale() == 'ar') mr-auto @else ml-auto @endif">
-                <li class="c-header-nav-item">
-                    <a href="{{route('frontend.home')}}" class="c-header-nav-link">
-                        {{trans('global.homepage')}} &nbsp;
-                        <i class="fa fa-home"></i>
-                    </a>
-                </li>
+            <ul class="c-header-nav ml-auto">
                 @if(count(config('panel.available_languages', [])) > 1)
                     <li class="c-header-nav-item dropdown d-md-down-none">
                         <a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
@@ -138,9 +119,6 @@
             </form>
         </div>
     </div>
-    
-    @include('sweetalert::alert')
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
@@ -163,197 +141,122 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
     <script src="{{ asset('js/main.js') }}"></script>
-    <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
-
-    <script>
-        function showFrontendAlert(type, title, message){
-            swal({ 
-                title: title,
-                text: message,
-                type: type, 
-                showConfirmButton: 'Okay',
-                timer: 3000
-            });
-        }
-
-        function deleteConfirmation(route, div = null, partials = false) { 
-            swal({
-                title: "{{trans('global.flash.delete_')}}",
-                text: "{{trans('global.flash.sure_')}}",
-                type: "warning",
-                showCancelButton: !0,
-                confirmButtonText: "{{trans('global.flash.yes_')}}",
-                cancelButtonText: "{{trans('global.flash.no_')}}",
-                reverseButtons: !0
-            }).then(function (e) {
-
-                if (e.value === true) { 
-
-                    $.ajax({
-                        type: 'DELETE',
-                        url: route, 
-                        data: { _token: '{{ csrf_token() }}', partials: partials}, 
-                        success: function (results) { 
-                            if(div != null){ 
-                            showFrontendAlert('success', '{{trans('global.flash.deleted')}}', '');
-                            $(div).html(null);
-                            $(div).html(results);
-                            }else{
-                            location.reload(); 
-                            }
-                        }
-                    });
-
-                } else {
-                    e.dismiss;
-                }
-
-            }, function (dismiss) {
-                return false;
-            })
-        }
-    </script>
     <script>
         $(function() {
-            let copyButtonTrans = '{{ trans('global.datatables.copy') }}'
-            let csvButtonTrans = '{{ trans('global.datatables.csv') }}'
-            let excelButtonTrans = '{{ trans('global.datatables.excel') }}'
-            let pdfButtonTrans = '{{ trans('global.datatables.pdf') }}'
-            let printButtonTrans = '{{ trans('global.datatables.print') }}'
-            let colvisButtonTrans = '{{ trans('global.datatables.colvis') }}'
-            let selectAllButtonTrans = '{{ trans('global.select_all') }}'
-            let selectNoneButtonTrans = '{{ trans('global.deselect_all') }}'
+  let copyButtonTrans = '{{ trans('global.datatables.copy') }}'
+  let csvButtonTrans = '{{ trans('global.datatables.csv') }}'
+  let excelButtonTrans = '{{ trans('global.datatables.excel') }}'
+  let pdfButtonTrans = '{{ trans('global.datatables.pdf') }}'
+  let printButtonTrans = '{{ trans('global.datatables.print') }}'
+  let colvisButtonTrans = '{{ trans('global.datatables.colvis') }}'
+  let selectAllButtonTrans = '{{ trans('global.select_all') }}'
+  let selectNoneButtonTrans = '{{ trans('global.deselect_all') }}'
 
-            let languages = {
-                'en': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/English.json',
-                    'ar': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Arabic.json'
-            };
+  let languages = {
+    'en': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/English.json',
+        'ar': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Arabic.json'
+  };
 
-            $.extend(true, $.fn.dataTable.Buttons.defaults.dom.button, { className: 'btn' })
-            $.extend(true, $.fn.dataTable.defaults, {
-                language: {
-                url: languages['{{ app()->getLocale() }}']
-                },
-                columnDefs: [{
-                    orderable: false,
-                    className: 'select-checkbox',
-                    targets: 0
-                }, {
-                    orderable: false,
-                    searchable: false,
-                    targets: -1
-                }],
-                select: {
-                style:    'multi+shift',
-                selector: 'td:first-child'
-                },
-                order: [],
-                scrollX: true,
-                pageLength: 100,
-                dom: 'lBfrtip<"actions">',
-                buttons: [
-                {
-                    extend: 'selectAll',
-                    className: 'btn-primary',
-                    text: selectAllButtonTrans,
-                    exportOptions: {
-                    columns: ':visible'
-                    },
-                    action: function(e, dt) {
-                    e.preventDefault()
-                    dt.rows().deselect();
-                    dt.rows({ search: 'applied' }).select();
-                    }
-                },
-                {
-                    extend: 'selectNone',
-                    className: 'btn-primary',
-                    text: selectNoneButtonTrans,
-                    exportOptions: {
-                    columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'copy',
-                    className: 'btn-default',
-                    text: copyButtonTrans,
-                    exportOptions: {
-                    columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'csv',
-                    className: 'btn-default',
-                    text: csvButtonTrans,
-                    exportOptions: {
-                    columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'excel',
-                    className: 'btn-default',
-                    text: excelButtonTrans,
-                    exportOptions: {
-                    columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'pdf',
-                    className: 'btn-default',
-                    text: pdfButtonTrans,
-                    exportOptions: {
-                    columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'print',
-                    className: 'btn-default',
-                    text: printButtonTrans,
-                    exportOptions: {
-                    columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'colvis',
-                    className: 'btn-default',
-                    text: colvisButtonTrans,
-                    exportOptions: {
-                    columns: ':visible'
-                    }
-                }
-                ]
-            });
+  $.extend(true, $.fn.dataTable.Buttons.defaults.dom.button, { className: 'btn' })
+  $.extend(true, $.fn.dataTable.defaults, {
+    language: {
+      url: languages['{{ app()->getLocale() }}']
+    },
+    columnDefs: [{
+        orderable: false,
+        className: 'select-checkbox',
+        targets: 0
+    }, {
+        orderable: false,
+        searchable: false,
+        targets: -1
+    }],
+    select: {
+      style:    'multi+shift',
+      selector: 'td:first-child'
+    },
+    order: [],
+    scrollX: true,
+    pageLength: 100,
+    dom: 'lBfrtip<"actions">',
+    buttons: [
+      {
+        extend: 'selectAll',
+        className: 'btn-primary',
+        text: selectAllButtonTrans,
+        exportOptions: {
+          columns: ':visible'
+        },
+        action: function(e, dt) {
+          e.preventDefault()
+          dt.rows().deselect();
+          dt.rows({ search: 'applied' }).select();
+        }
+      },
+      {
+        extend: 'selectNone',
+        className: 'btn-primary',
+        text: selectNoneButtonTrans,
+        exportOptions: {
+          columns: ':visible'
+        }
+      },
+      {
+        extend: 'copy',
+        className: 'btn-default',
+        text: copyButtonTrans,
+        exportOptions: {
+          columns: ':visible'
+        }
+      },
+      {
+        extend: 'csv',
+        className: 'btn-default',
+        text: csvButtonTrans,
+        exportOptions: {
+          columns: ':visible'
+        }
+      },
+      {
+        extend: 'excel',
+        className: 'btn-default',
+        text: excelButtonTrans,
+        exportOptions: {
+          columns: ':visible'
+        }
+      },
+      {
+        extend: 'pdf',
+        className: 'btn-default',
+        text: pdfButtonTrans,
+        exportOptions: {
+          columns: ':visible'
+        }
+      },
+      {
+        extend: 'print',
+        className: 'btn-default',
+        text: printButtonTrans,
+        exportOptions: {
+          columns: ':visible'
+        }
+      },
+      {
+        extend: 'colvis',
+        className: 'btn-default',
+        text: colvisButtonTrans,
+        exportOptions: {
+          columns: ':visible'
+        }
+      }
+    ]
+  });
 
-            $.fn.dataTable.ext.classes.sPageButton = '';
-            });
+  $.fn.dataTable.ext.classes.sPageButton = '';
+});
 
     </script>
     <script>
-        $('#district_id').on('change',function(){
-            var district_id = $('#district_id').val();
-            $.post('{{ route('admin.cities.by_district') }}', {_token:'{{ csrf_token() }}', district_id:district_id}, function(data){
-                $('#city_id').html(data)
-            });
-        }); 
-        
-        function update_approved(el){
-            if(el.checked){
-                var status = 1;
-            }
-            else{
-                var status = 0;
-            } 
-            $.post('{{ route('admin.users.update_approved') }}', {_token:'{{ csrf_token() }}', id:el.value, status:status}, function(data){
-                if(data == 1){
-                    showFrontendAlert('success',"{{ trans('global.flash.user.approve') }}");
-                }else{
-                    showFrontendAlert('error',"{{ trans('global.flash.error') }}");
-                }
-            });
-        }
-
         $(document).ready(function () {
     $(".notifications-menu").on('click', function () {
         if (!$(this).hasClass('open')) {

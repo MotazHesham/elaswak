@@ -26,28 +26,10 @@
                             {{ trans('cruds.delegate.fields.id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.name') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.user.fields.last_name') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.user.fields.email') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.user.fields.phone') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.user.fields.approved') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.user.fields.city') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.delegate.fields.discount_code') }}
-                        </th> 
+                        </th>
                         <th>
-                            {{ trans('cruds.user.fields.photo') }}
+                            {{ trans('cruds.delegate.fields.user') }}
                         </th>
                         <th>
                             &nbsp;
@@ -64,36 +46,11 @@
                                 {{ $delegate->id ?? '' }}
                             </td>
                             <td>
-                                {{ $delegate->user->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $delegate->user->last_name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $delegate->user->email ?? '' }}
-                            </td>
-                            <td>
-                                {{ $delegate->user->phone ?? '' }}
-                            </td>
-                            <td>
-                                <label class="c-switch c-switch-pill c-switch-success">
-                                    <input onchange="update_approved(this)" value="{{$delegate->user_id}}" type="checkbox" class="c-switch-input" {{ ($delegate->user->approved ? 'checked' : null) }}>
-                                    <span class="c-switch-slider"></span>
-                                </label>
-                            </td>
-                            <td>
-                                {{ $delegate->user->city->name_ar ?? '' }}
-                            </td>
-                            <td>
                                 {{ $delegate->discount_code ?? '' }}
                             </td>
                             <td>
-                                @if($delegate->user->photo)
-                                    <a href="{{ $delegate->user->photo->getUrl() }}" target="_blank" style="display: inline-block">
-                                        <img src="{{ $delegate->user->photo->getUrl('thumb') }}">
-                                    </a>
-                                @endif
-                            </td> 
+                                {{ $delegate->user->name ?? '' }}
+                            </td>
                             <td>
                                 @can('delegate_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.delegates.show', $delegate->id) }}">

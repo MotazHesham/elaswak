@@ -14,11 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CitiesController extends Controller
 {
-    public function by_district(Request $request){ 
-        $cities = City::where('district_id',$request->district_id)->get();
-        return view('admin.cities.by_district',compact('cities'));
-    }
-    
     public function index()
     {
         abort_if(Gate::denies('city_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');

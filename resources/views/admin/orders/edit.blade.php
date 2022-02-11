@@ -109,6 +109,42 @@
                 <span class="help-block">{{ trans('cruds.order.fields.address_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="products">{{ trans('cruds.order.fields.products') }}</label>
+                <div style="padding-bottom: 4px">
+                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
+                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                </div>
+                <select class="form-control select2 {{ $errors->has('products') ? 'is-invalid' : '' }}" name="products[]" id="products" multiple>
+                    @foreach($products as $id => $product)
+                        <option value="{{ $id }}" {{ (in_array($id, old('products', [])) || $order->products->contains($id)) ? 'selected' : '' }}>{{ $product }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('products'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('products') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.order.fields.products_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="offers">{{ trans('cruds.order.fields.offers') }}</label>
+                <div style="padding-bottom: 4px">
+                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
+                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                </div>
+                <select class="form-control select2 {{ $errors->has('offers') ? 'is-invalid' : '' }}" name="offers[]" id="offers" multiple>
+                    @foreach($offers as $id => $offer)
+                        <option value="{{ $id }}" {{ (in_array($id, old('offers', [])) || $order->offers->contains($id)) ? 'selected' : '' }}>{{ $offer }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('offers'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('offers') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.order.fields.offers_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label class="required">{{ trans('cruds.order.fields.payment_type') }}</label>
                 <select class="form-control {{ $errors->has('payment_type') ? 'is-invalid' : '' }}" name="payment_type" id="payment_type" required>
                     <option value disabled {{ old('payment_type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>

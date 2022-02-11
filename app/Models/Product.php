@@ -39,7 +39,6 @@ class Product extends Model implements HasMedia
         'price',
         'supplier_id',
         'active',
-        'quantity',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -48,7 +47,7 @@ class Product extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null)
     {
         $this->addMediaConversion('thumb')->fit('crop', 50, 50);
-        $this->addMediaConversion('preview')->fit('crop', 450, 300);
+        $this->addMediaConversion('preview')->fit('crop', 120, 120);
     }
 
     public function productProductRates()
@@ -58,7 +57,7 @@ class Product extends Model implements HasMedia
 
     public function productsOffers()
     {
-        return $this->belongsToMany(Offer::class)->withPivot(['quantity']);
+        return $this->belongsToMany(Offer::class);
     }
 
     public function categories()

@@ -33,9 +33,8 @@ class StoreUserRequest extends FormRequest
                 'required',
             ],
             'phone' => [
+                'string',
                 'required',
-                'size:10',
-                'regex:/(05)[0-9]{8}/', 
             ],
             'district_id' => [
                 'required',

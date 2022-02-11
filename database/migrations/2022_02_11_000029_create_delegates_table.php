@@ -10,7 +10,7 @@ class CreateDelegatesTable extends Migration
     {
         Schema::create('delegates', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('discount_code')->unique();
+            $table->string('discount_code');
             $table->string('facebook');
             $table->string('instagram');
             $table->string('youtube');

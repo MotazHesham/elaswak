@@ -35,7 +35,10 @@ class StoreOfferRequest extends FormRequest
             ],
             'tags' => [
                 'array',
-            ], 
+            ],
+            'products.*' => [
+                'integer',
+            ],
             'products' => [
                 'required',
                 'array',
@@ -43,6 +46,14 @@ class StoreOfferRequest extends FormRequest
             'supplier_id' => [
                 'required',
                 'integer',
+            ],
+            'start_date' => [
+                'required',
+                'date_format:' . config('panel.date_format'),
+            ],
+            'end_date' => [
+                'required',
+                'date_format:' . config('panel.date_format'),
             ],
         ];
     }

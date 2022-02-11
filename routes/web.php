@@ -1,5 +1,6 @@
 <?php
 
+Route::redirect('/', '/login');
 Route::get('/home', function () {
     if (session('status')) {
         return redirect()->route('admin.home')->with('status', session('status'));
@@ -9,10 +10,6 @@ Route::get('/home', function () {
 });
 
 Auth::routes();
-
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin'], function () {
-    Route::post('cities/by_district', 'CitiesController@by_district')->name('cities.by_district');
-});
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
     Route::get('/', 'HomeController@index')->name('home');
@@ -28,7 +25,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
     Route::post('users/media', 'UsersController@storeMedia')->name('users.storeMedia');
     Route::post('users/ckmedia', 'UsersController@storeCKEditorImages')->name('users.storeCKEditorImages');
-    Route::post('users/update_approved', 'UsersController@update_approved')->name('users.update_approved');
     Route::resource('users', 'UsersController');
 
     // Product Category
@@ -81,6 +77,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('settings/destroy', 'SettingsController@massDestroy')->name('settings.massDestroy');
     Route::resource('settings', 'SettingsController');
 
+    // Product Favorites
+    Route::resource('product-favorites', 'ProductFavoritesController', ['except' => ['create', 'store', 'edit', 'update', 'show', 'destroy']]);
 
     // Product Rates
     Route::delete('product-rates/destroy', 'ProductRatesController@massDestroy')->name('product-rates.massDestroy');
@@ -98,6 +96,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('offer-rates/destroy', 'OfferRatesController@massDestroy')->name('offer-rates.massDestroy');
     Route::resource('offer-rates', 'OfferRatesController', ['except' => ['create', 'store', 'edit', 'update']]);
 
+    // Offer Favorites
+    Route::resource('offer-favorites', 'OfferFavoritesController', ['except' => ['create', 'store', 'edit', 'update', 'show', 'destroy']]);
 
     // Orders
     Route::delete('orders/destroy', 'OrdersController@massDestroy')->name('orders.massDestroy');

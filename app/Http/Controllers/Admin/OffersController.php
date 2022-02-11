@@ -102,7 +102,7 @@ class OffersController extends Controller
 
         $tags = ProductTag::pluck('name', 'id');
 
-        $products = Product::all();
+        $products = Product::pluck('name', 'id');
 
         $suppliers = Supplier::pluck('company_name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -113,9 +113,8 @@ class OffersController extends Controller
     {
         $offer = Offer::create($request->all());
         $offer->categories()->sync($request->input('categories', []));
-        $offer->tags()->sync($request->input('tags', [])); 
-        $offer->products()->sync($this->mapProducts($request['products']));
-
+        $offer->tags()->sync($request->input('tags', []));
+        $offer->products()->sync($request->input('products', []));
         if ($request->input('photo', false)) {
             $offer->addMedia(storage_path('tmp/uploads/' . basename($request->input('photo'))))->toMediaCollection('photo');
         }
@@ -125,13 +124,6 @@ class OffersController extends Controller
         }
 
         return redirect()->route('admin.offers.index');
-    }
-
-    private function mapProducts($products)
-    {
-        return collect($products)->map(function ($i) {
-            return ['quantity' => $i];
-        });
     }
 
     public function edit(Offer $offer)
@@ -148,11 +140,6 @@ class OffersController extends Controller
 
         $offer->load('categories', 'tags', 'products', 'supplier');
 
-        $products = Product::get()->map(function($product) use ($offer) {
-            $product->value = data_get($offer->products->firstWhere('id', $product->id), 'pivot.quantity') ?? null;
-            return $product;
-        });
-
         return view('admin.offers.edit', compact('categories', 'offer', 'products', 'suppliers', 'tags'));
     }
 
@@ -161,7 +148,7 @@ class OffersController extends Controller
         $offer->update($request->all());
         $offer->categories()->sync($request->input('categories', []));
         $offer->tags()->sync($request->input('tags', []));
-        $offer->products()->sync($this->mapProducts($request['products']));
+        $offer->products()->sync($request->input('products', []));
         if ($request->input('photo', false)) {
             if (!$offer->photo || $request->input('photo') !== $offer->photo->file_name) {
                 if ($offer->photo) {
