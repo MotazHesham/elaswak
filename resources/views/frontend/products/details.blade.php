@@ -124,7 +124,7 @@
                                 @else
                                     <i class="far fa-heart product-fav" data-id="{{$product->id}}" data-type="product"></i>
                                 @endauth
-                                <a class="" href="{{ route('frontend.product',$product->id)}}"><img src="@if($product->photo) {{ $product->photo->getUrl()}}  @else {{ asset('noimage.jpg') }} @endif" /></a>
+                                <a class="" href="{{ route('frontend.product',$product->id)}}"><img src="@if($product->photo) {{ $product->photo->getUrl('preview')}}  @else {{ asset('noimage.jpg') }} @endif" /></a>
                             </div>
                             <a>
                                 <p class="product-name">{{ $product->name }}</p>

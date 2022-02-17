@@ -35,8 +35,8 @@ class ProductController extends Controller
     }
 
     public function custom_import(){   
-        Excel::import(new ProductsImport,'F:\Work\xampp\htdocs\elaswak\public\list-of-products.xlsx');
-        Alert::success('تم الاستيراد بنجاح');
+        // Excel::import(new ProductsImport,'F:\Work\xampp\htdocs\elaswak\public\list-of-products.xlsx');
+        // Alert::success('تم الاستيراد بنجاح');
         return redirect()->route('admin.products.index');
     }
 

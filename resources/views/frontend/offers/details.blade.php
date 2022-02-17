@@ -142,7 +142,7 @@
                                     <i class="far fa-heart product-fav" data-id="{{ $offer->id }}" data-type="product"></i>
                                 @endauth
                                 <a class="" href="{{ route('frontend.offer', $offer->id) }}"><img
-                                        src="@if($offer->photo) {{ $offer->photo->getUrl() }}  @else {{ asset('noimage.jpg') }} @endif" /></a>
+                                        src="@if($offer->photo) {{ $offer->photo->getUrl('preview') }}  @else {{ asset('noimage.jpg') }} @endif" /></a>
                             </div>
                             <a>
                                 <p class="product-name">{{ $offer->name }}</p>
