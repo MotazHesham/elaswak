@@ -16,46 +16,7 @@ class UpdateOrderRequest extends FormRequest
 
     public function rules()
     {
-        return [
-            'user_id' => [
-                'required',
-                'integer',
-            ],
-            'first_name' => [
-                'string',
-                'required',
-            ],
-            'last_name' => [
-                'string',
-                'required',
-            ],
-            'phone' => [
-                'string',
-                'required',
-            ],
-            'discount_code' => [
-                'string',
-                'nullable',
-            ],
-            'district_id' => [
-                'required',
-                'integer',
-            ],
-            'city_id' => [
-                'required',
-                'integer',
-            ],
-            'zip_code' => [
-                'string',
-                'required',
-            ],
-            'address' => [
-                'string',
-                'required',
-            ],
-            'payment_type' => [
-                'required',
-            ],
+        return [ 
             'payment_status' => [
                 'required',
             ],

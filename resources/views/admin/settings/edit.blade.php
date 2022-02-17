@@ -41,7 +41,7 @@
                     @endif
                     <span class="help-block">{{ trans('cruds.setting.fields.address_helper') }}</span>
                 </div>
-                <div class="form-group col-md-4">
+                {{-- <div class="form-group col-md-4">
                     <label for="discount">{{ trans('cruds.setting.fields.discount') }}</label>
                     <input class="form-control {{ $errors->has('discount') ? 'is-invalid' : '' }}" type="number" name="discount" id="discount" value="{{ old('discount', $setting->discount) }}" step="0.01">
                     @if($errors->has('discount'))
@@ -50,8 +50,8 @@
                         </div>
                     @endif
                     <span class="help-block">{{ trans('cruds.setting.fields.discount_helper') }}</span>
-                </div>
-                <div class="form-group col-md-4">
+                </div> --}}
+                <div class="form-group col-md-6">
                     <label for="facebook">{{ trans('cruds.setting.fields.facebook') }}</label>
                     <input class="form-control {{ $errors->has('facebook') ? 'is-invalid' : '' }}" type="text" name="facebook" id="facebook" value="{{ old('facebook', $setting->facebook) }}">
                     @if($errors->has('facebook'))
@@ -61,7 +61,7 @@
                     @endif
                     <span class="help-block">{{ trans('cruds.setting.fields.facebook_helper') }}</span>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                     <label for="instagram">{{ trans('cruds.setting.fields.instagram') }}</label>
                     <input class="form-control {{ $errors->has('instagram') ? 'is-invalid' : '' }}" type="text" name="instagram" id="instagram" value="{{ old('instagram', $setting->instagram) }}">
                     @if($errors->has('instagram'))

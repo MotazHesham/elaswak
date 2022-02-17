@@ -45,7 +45,7 @@
                     @else
                         <i class="far fa-heart product-fav" data-id="{{$product->id}}" data-type="product"></i>
                     @endauth
-                    <img src="@if($product->photo) {{ $product->photo->getUrl() }} @endif" id="main_product_image" width="" />
+                    <img src="@if($product->photo) {{ $product->photo->getUrl() }}  @else {{ asset('noimage.jpg') }} @endif" id="main_product_image" width="" />
                 </div>
                 <div class="customer-opinins-div">
                     <div class="customers-opinins">
@@ -124,7 +124,7 @@
                                 @else
                                     <i class="far fa-heart product-fav" data-id="{{$product->id}}" data-type="product"></i>
                                 @endauth
-                                <a class="" href="{{ route('frontend.product',$product->id)}}"><img src="@if($product->photo) {{ $product->photo->getUrl()}} @endif" /></a>
+                                <a class="" href="{{ route('frontend.product',$product->id)}}"><img src="@if($product->photo) {{ $product->photo->getUrl()}}  @else {{ asset('noimage.jpg') }} @endif" /></a>
                             </div>
                             <a>
                                 <p class="product-name">{{ $product->name }}</p>

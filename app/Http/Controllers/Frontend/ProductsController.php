@@ -19,7 +19,7 @@ class ProductsController extends Controller
         $search = null;
         $max_price = Product::max('price');
 
-        $products = Product::where('active','active');
+        $products = Product::where('active',1);
         $categories = ProductCategory::orderBy('created_at','desc')->get();
 
         if($request->has('search')){ 
@@ -72,7 +72,7 @@ class ProductsController extends Controller
         $product = Product::findOrFail($id);
         global $productCategories;
         $productCategories = $product->categories()->get()->pluck('id');
-        $products = Product::where('id','!=',$id)->whereHas('categories',function($q){
+        $products = Product::where('active',1)->where('id','!=',$id)->whereHas('categories',function($q){
             $q->whereIn('id',$GLOBALS['productCategories']);
         })->orderBy('created_at','desc')->get()->take(6); 
         return view('frontend.products.details',compact('product','products'));

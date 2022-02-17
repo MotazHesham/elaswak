@@ -24,6 +24,13 @@ class OffersController extends Controller
     use MediaUploadingTrait;
     use CsvImportTrait;
 
+    public function update_status(Request $request){
+        $offer = Offer::find($request->id);
+        $offer->active = $request->status;
+        $offer->save();
+        return 1; 
+    }
+
     public function index(Request $request)
     {
         abort_if(Gate::denies('offer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -70,10 +77,10 @@ class OffersController extends Controller
             $table->editColumn('photo', function ($row) {
                 if ($photo = $row->photo) {
                     return sprintf(
-        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
-        $photo->url,
-        $photo->thumbnail
-    );
+                        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
+                        $photo->url,
+                        $photo->thumbnail
+                    );
                 }
 
                 return '';
@@ -83,7 +90,10 @@ class OffersController extends Controller
             });
 
             $table->editColumn('active', function ($row) {
-                return '<input type="checkbox" disabled ' . ($row->active ? 'checked' : null) . '>';
+                return '<label class="c-switch c-switch-pill c-switch-success">
+                            <input onchange="update_status(this)" value="'.$row->id.'" type="checkbox" class="c-switch-input"' . ($row->active ? 'checked' : null) . '>
+                            <span class="c-switch-slider"></span>
+                        </label>';
             });
 
             $table->rawColumns(['actions', 'placeholder', 'category', 'photo', 'supplier', 'active']);
@@ -151,8 +161,7 @@ class OffersController extends Controller
         $products = Product::get()->map(function($product) use ($offer) {
             $product->value = data_get($offer->products->firstWhere('id', $product->id), 'pivot.quantity') ?? null;
             return $product;
-        });
-
+        }); 
         return view('admin.offers.edit', compact('categories', 'offer', 'products', 'suppliers', 'tags'));
     }
 

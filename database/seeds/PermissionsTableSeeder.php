@@ -538,6 +538,50 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 133,
+                'title' => 'money_request_create',
+            ],
+            [
+                'id'    => 134,
+                'title' => 'money_request_edit',
+            ],
+            [
+                'id'    => 135,
+                'title' => 'money_request_show',
+            ],
+            [
+                'id'    => 136,
+                'title' => 'money_request_delete',
+            ],
+            [
+                'id'    => 137,
+                'title' => 'money_request_access',
+            ],
+            [
+                'id'    => 138,
+                'title' => 'target_create',
+            ],
+            [
+                'id'    => 139,
+                'title' => 'target_edit',
+            ],
+            [
+                'id'    => 140,
+                'title' => 'target_show',
+            ],
+            [
+                'id'    => 141,
+                'title' => 'target_delete',
+            ],
+            [
+                'id'    => 142,
+                'title' => 'target_access',
+            ],
+            [
+                'id'    => 143,
+                'title' => 'delegates_managment_access',
+            ],
+            [
+                'id'    => 144,
                 'title' => 'profile_password_edit',
             ],
         ];

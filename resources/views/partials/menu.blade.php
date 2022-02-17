@@ -156,14 +156,47 @@
                 </ul>
             </li>
         @endcan
-        @can('delegate_access')
-            <li class="c-sidebar-nav-item">
-                <a href="{{ route("admin.delegates.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/delegates") || request()->is("admin/delegates/*") ? "c-active" : "" }}">
+        
+        @can('delegates_managment_access')
+            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/delegates*") ? "c-show" : "" }} {{ request()->is("admin/targets*") ? "c-show" : "" }} {{ request()->is("admin/money-requests*") ? "c-show" : "" }}">
+                <a class="c-sidebar-nav-dropdown-toggle" href="#">
                     <i class="fa-fw fas fa-user-friends c-sidebar-nav-icon">
 
                     </i>
-                    {{ trans('cruds.delegate.title') }}
+                    {{ trans('cruds.delegatesManagment.title') }}
                 </a>
+                <ul class="c-sidebar-nav-dropdown-items">
+                    @can('delegate_access')
+                        <li class="c-sidebar-nav-item">
+                            <a href="{{ route("admin.delegates.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/delegates") || request()->is("admin/delegates/*") ? "c-active" : "" }}">
+                                <i class="fa-fw fas fa-user-friends c-sidebar-nav-icon">
+
+                                </i>
+                                {{ trans('cruds.delegate.title') }}
+                            </a>
+                        </li>
+                    @endcan
+                    @can('target_access')
+                        <li class="c-sidebar-nav-item">
+                            <a href="{{ route("admin.targets.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/targets") || request()->is("admin/targets/*") ? "c-active" : "" }}">
+                                <i class="fa-fw fas fa-medal c-sidebar-nav-icon">
+
+                                </i>
+                                {{ trans('cruds.target.title') }}
+                            </a>
+                        </li>
+                    @endcan
+                    @can('money_request_access')
+                        <li class="c-sidebar-nav-item">
+                            <a href="{{ route("admin.money-requests.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/money-requests") || request()->is("admin/money-requests/*") ? "c-active" : "" }}">
+                                <i class="fa-fw far fa-money-bill-alt c-sidebar-nav-icon">
+
+                                </i>
+                                {{ trans('cruds.moneyRequest.title') }}
+                            </a>
+                        </li>
+                    @endcan
+                </ul>
             </li>
         @endcan
         @can('client_access')

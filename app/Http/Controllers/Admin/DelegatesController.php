@@ -66,6 +66,7 @@ class DelegatesController extends Controller
         $delegate = Delegate::create([
             'user_id' => $user->id,
             'discount_code' => $request->discount_code,
+            'discount' => $request->discount,
             'facebook' => $request->facebook,
             'instagram' => $request->instagram,
             'youtube' => $request->youtube,
@@ -94,6 +95,7 @@ class DelegatesController extends Controller
     {
         $delegate->update([
             'discount_code' => $request->discount_code,
+            'discount' => $request->discount,
             'facebook' => $request->facebook,
             'instagram' => $request->instagram,
             'youtube' => $request->youtube,

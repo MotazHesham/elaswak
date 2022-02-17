@@ -14,6 +14,8 @@ class CreateOffersTable extends Migration
             $table->longText('description')->nullable();
             $table->decimal('price', 15, 2)->nullable();
             $table->boolean('active')->default(0)->nullable();
+            $table->date('start_date');
+            $table->date('end_date');
             $table->timestamps();
             $table->softDeletes();
         });

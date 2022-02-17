@@ -98,6 +98,22 @@
                             {{ $offer->supplier->company_name ?? '' }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.offer.fields.start_date') }}
+                        </th>
+                        <td>
+                            {{ $offer->start_date }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.offer.fields.end_date') }}
+                        </th>
+                        <td>
+                            {{ $offer->end_date }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

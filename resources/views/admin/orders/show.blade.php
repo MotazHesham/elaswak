@@ -65,6 +65,22 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.order.fields.discount') }}
+                        </th>
+                        <td>
+                            {{ $order->discount }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.order.fields.total_cost') }}
+                        </th>
+                        <td>
+                            {{ $order->total_cost }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.order.fields.district') }}
                         </th>
                         <td>

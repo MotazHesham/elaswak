@@ -22,6 +22,7 @@ class Delegate extends Model
 
     protected $fillable = [
         'discount_code',
+        'discount',
         'facebook',
         'instagram',
         'youtube',
@@ -31,6 +32,16 @@ class Delegate extends Model
         'deleted_at',
     ];
 
+    public function delegateMoneyRequests()
+    {
+        return $this->hasMany(MoneyRequest::class, 'delegate_id', 'id');
+    }
+
+    public function delegateTargets()
+    {
+        return $this->belongsToMany(Target::class)->withpivot(['orders','achieved','achieved_date','profit']);
+    }
+    
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -39,5 +50,5 @@ class Delegate extends Model
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
-    }
+    } 
 }

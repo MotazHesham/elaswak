@@ -105,16 +105,27 @@
                         </div>
                     @endif
                     <span class="help-block">{{ trans('cruds.user.fields.address_helper') }}</span>
-                </div> 
+                </div>  
                 <div class="form-group col-md-3">
                     <label class="required" for="discount_code">{{ trans('cruds.delegate.fields.discount_code') }}</label>
-                    <input class="form-control {{ $errors->has('discount_code') ? 'is-invalid' : '' }}" type="text" name="discount_code" id="discount_code" value="{{ old('discount_code', '') }}" required>
+                    <input class="form-control {{ $errors->has('discount_code') ? 'is-invalid' : '' }}"  pattern="^\S+$" {{-- for none space --}}
+                        type="text" name="discount_code" id="discount_code" value="{{ old('discount_code', '') }}" required>
                     @if($errors->has('discount_code'))
                         <div class="invalid-feedback">
                             {{ $errors->first('discount_code') }}
                         </div>
                     @endif
                     <span class="help-block">{{ trans('cruds.delegate.fields.discount_code_helper') }}</span>
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="required" for="discount">{{ trans('cruds.delegate.fields.discount') }}</label>
+                    <input class="form-control {{ $errors->has('discount') ? 'is-invalid' : '' }}" type="number" name="discount" id="discount" value="{{ old('discount', '') }}" required>
+                    @if($errors->has('discount'))
+                        <div class="invalid-feedback">
+                            {{ $errors->first('discount') }}
+                        </div>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.delegate.fields.discount_helper') }}</span>
                 </div>
                 <div class="form-group col-md-3">
                     <label class="required" for="facebook">{{ trans('cruds.delegate.fields.facebook') }}</label>

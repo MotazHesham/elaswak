@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\Offer;
 use App\Models\Service;
 use App\Models\District;
+use App\Models\City;
 use App\Models\Client;
 use App\Models\Delegate;
 use App\Models\Supplier;
@@ -21,11 +22,13 @@ use Alert;
 class HomeController extends Controller
 {
     public function index(){
+        $now_date = date('Y-m-d',strtotime('now')); 
+        
         $categories = ProductCategory::orderBy('created_at','desc')->get()->take(12); 
         $slider = Slider::where('type','upper')->where('active','active')->first();
 
-        $products = Product::where('active','active')->orderBy('created_at','desc')->get()->take(9);
-        $offers = Offer::where('active','active')->orderBy('created_at','desc')->get()->take(9);
+        $products = Product::where('active',1)->orderBy('created_at','desc')->get()->take(9);
+        $offers = Offer::where('active',1)->where('start_date','<=',$now_date)->where('end_date','>=',$now_date)->orderBy('created_at','desc')->get()->take(9);
 
         $services = Service::orderBy('created_at','desc')->get()->take(3);
         return view('frontend.home',compact('categories','slider','products','offers','services'));
@@ -36,7 +39,8 @@ class HomeController extends Controller
     public function form_supplier(){
         $name = 'name_' . app()->getLocale();
         $districts = District::pluck($name, 'id')->prepend('المنطقة', ''); 
-        return view('frontend.register.supplier',compact('districts'));
+        $cities = City::pluck($name, 'id')->prepend('المدينة', ''); 
+        return view('frontend.register.supplier',compact('districts','cities'));
     }
 
     public function register_supplier(Request $request){
@@ -80,7 +84,8 @@ class HomeController extends Controller
     public function form_delegate(){
         $name = 'name_' . app()->getLocale();
         $districts = District::pluck($name, 'id')->prepend('المنطقة', ''); 
-        return view('frontend.register.delegate',compact('districts'));
+        $cities = City::pluck($name, 'id')->prepend('المدينة', ''); 
+        return view('frontend.register.delegate',compact('districts','cities'));
     }
 
     public function register_delegate(StoreDelegateRequest $request){
@@ -117,7 +122,8 @@ class HomeController extends Controller
     public function form_client(){
         $name = 'name_' . app()->getLocale();
         $districts = District::pluck($name, 'id')->prepend('المنطقة', ''); 
-        return view('frontend.register.client',compact('districts'));
+        $cities = City::pluck($name, 'id')->prepend('المدينة', ''); 
+        return view('frontend.register.client',compact('districts','cities'));
     }
 
     public function register_client(StoreClientRequest $request){

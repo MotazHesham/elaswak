@@ -122,5 +122,8 @@ return [
             'size' => 'Phone Must Be 10 Digts' ,
             'regex' => 'Phone Must Start With 05' ,
         ], 
+        'discount_code' => [
+            'without_spaces' => 'Discount code cant have spaces' , 
+        ],
     ],
 ];

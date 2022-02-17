@@ -17,11 +17,28 @@ use Illuminate\Http\Request;
 use Spatie\MediaLibrary\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ProductsImport;
+use Storage;
+use Alert;
 
 class ProductController extends Controller
 {
     use MediaUploadingTrait;
     use CsvImportTrait;
+
+    public function update_status(Request $request){
+        $product = Product::find($request->id);
+        $product->active = $request->status;
+        $product->save();
+        return 1; 
+    }
+
+    public function custom_import(){   
+        Excel::import(new ProductsImport,'F:\Work\xampp\htdocs\elaswak\public\list-of-products.xlsx');
+        Alert::success('تم الاستيراد بنجاح');
+        return redirect()->route('admin.products.index');
+    }
 
     public function index(Request $request)
     {
@@ -80,21 +97,24 @@ class ProductController extends Controller
             $table->editColumn('photo', function ($row) {
                 if ($photo = $row->photo) {
                     return sprintf(
-        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
-        $photo->url,
-        $photo->thumbnail
-    );
+                        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
+                        $photo->url,
+                        $photo->thumbnail
+                    );
                 }
 
                 return '';
             });
             $table->addColumn('supplier_company_name', function ($row) {
                 return $row->supplier ? $row->supplier->company_name : '';
-            });
-
+            }); 
+            
             $table->editColumn('active', function ($row) {
-                return '<input type="checkbox" disabled ' . ($row->active ? 'checked' : null) . '>';
-            });
+                return '<label class="c-switch c-switch-pill c-switch-success">
+                            <input onchange="update_status(this)" value="'.$row->id.'" type="checkbox" class="c-switch-input"' . ($row->active ? 'checked' : null) . '>
+                            <span class="c-switch-slider"></span>
+                        </label>';
+            }); 
 
             $table->rawColumns(['actions', 'placeholder', 'category', 'tag', 'photo', 'supplier', 'active']);
 

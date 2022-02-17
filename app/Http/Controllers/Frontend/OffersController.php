@@ -19,7 +19,9 @@ class OffersController extends Controller
         $search = null;
         $max_price = Offer::max('price');
 
-        $offers = Offer::where('active','active');
+        $now_date = date('Y-m-d',strtotime('now')); 
+        
+        $offers = Offer::where('active',1)->where('start_date','<=',$now_date)->where('end_date','>=',$now_date);
         $categories = ProductCategory::orderBy('created_at','desc')->get();
 
         if($request->has('search')){ 
@@ -69,10 +71,11 @@ class OffersController extends Controller
     }
 
     public function details($id){
+        $now_date = date('Y-m-d',strtotime('now')); 
         $offer = Offer::findOrFail($id);
         global $productCategories;
         $productCategories = $offer->categories()->get()->pluck('id');
-        $offers = Offer::where('id','!=',$id)->whereHas('categories',function($q){
+        $offers = Offer::where('active',1)->where('start_date','<=',$now_date)->where('end_date','>=',$now_date)->where('id','!=',$id)->whereHas('categories',function($q){
             $q->whereIn('id',$GLOBALS['productCategories']);
         })->orderBy('created_at','desc')->get()->take(6); 
         return view('frontend.offers.details',compact('offer','offers'));

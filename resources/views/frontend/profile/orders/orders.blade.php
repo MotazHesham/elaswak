@@ -49,10 +49,7 @@
                                 <li>تفاصيل الطلب</li>
                             </ul>
                             
-                            @foreach ($orders_current as $order)
-                                @php
-                                    $order_total_cost = $order->products()->get()->sum('total_cost') + $order->offers()->get()->sum('total_cost');
-                                @endphp
+                            @foreach ($orders_current as $order) 
                                 <div class="row order">
                                     <div class="order-info order-number">
                                         <h6 class="order-info-mob-title">رقم الطلب</h6>
@@ -62,7 +59,7 @@
                                     <div class="order-info order-price">
                                         <h6 class="order-info-mob-title">السعر</h6>
                                         <p>SR
-                                            {{ $order_total_cost }}
+                                            {{ $order->total_cost }}
                                         </p>
                                     </div> 
 
@@ -123,10 +120,7 @@
                                 <li>تفاصيل الطلب</li>
                             </ul>
                             
-                            @forelse ($orders_prev as $order)
-                                @php
-                                    $order_total_cost = $order->products()->get()->sum('total_cost') + $order->offers()->get()->sum('total_cost');
-                                @endphp
+                            @forelse ($orders_prev as $order) 
                                 <div class="row order">
                                     <div class="order-info order-number">
                                         <h6 class="order-info-mob-title">رقم الطلب</h6>
@@ -136,7 +130,7 @@
                                     <div class="order-info order-price">
                                         <h6 class="order-info-mob-title">السعر</h6>
                                         <p>SR
-                                            {{ $order_total_cost }}
+                                            {{ $order->total_cost }}
                                         </p>
                                     </div> 
 

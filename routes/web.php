@@ -14,7 +14,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin'], fu
     Route::post('cities/by_district', 'CitiesController@by_district')->name('cities.by_district');
 });
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth','staff']], function () {
     Route::get('/', 'HomeController@index')->name('home');
     // Permissions
     Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
@@ -47,6 +47,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('products/ckmedia', 'ProductController@storeCKEditorImages')->name('products.storeCKEditorImages');
     Route::post('products/parse-csv-import', 'ProductController@parseCsvImport')->name('products.parseCsvImport');
     Route::post('products/process-csv-import', 'ProductController@processCsvImport')->name('products.processCsvImport');
+    Route::post('products/update_status', 'ProductController@update_status')->name('products.update_status');
+    Route::get('products/custom_import', 'ProductController@custom_import')->name('products.custom_import');
     Route::resource('products', 'ProductController');
 
     // Audit Logs
@@ -92,6 +94,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('offers/ckmedia', 'OffersController@storeCKEditorImages')->name('offers.storeCKEditorImages');
     Route::post('offers/parse-csv-import', 'OffersController@parseCsvImport')->name('offers.parseCsvImport');
     Route::post('offers/process-csv-import', 'OffersController@processCsvImport')->name('offers.processCsvImport');
+    Route::post('offers/update_status', 'OffersController@update_status')->name('offers.update_status');
     Route::resource('offers', 'OffersController');
 
     // Offer Rates
@@ -101,6 +104,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Orders
     Route::delete('orders/destroy', 'OrdersController@massDestroy')->name('orders.massDestroy');
+    Route::post('orders/details', 'OrdersController@details')->name('orders.details');
     Route::resource('orders', 'OrdersController');
 
     // Sliders
@@ -144,7 +148,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Clients
     Route::delete('clients/destroy', 'ClientsController@massDestroy')->name('clients.massDestroy');
     Route::resource('clients', 'ClientsController');
+    
+    // Money Request
+    Route::delete('money-requests/destroy', 'MoneyRequestController@massDestroy')->name('money-requests.massDestroy');
+    Route::resource('money-requests', 'MoneyRequestController');
 
+    // Targets
+    Route::delete('targets/destroy', 'TargetsController@massDestroy')->name('targets.massDestroy');
+    Route::get('targets/money_request/{target_id}/{delegate_id}', 'TargetsController@money_request')->name('targets.money_request');
+    Route::resource('targets', 'TargetsController');
+    
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
     Route::get('messenger', 'MessengerController@index')->name('messenger.index');
     Route::get('messenger/create', 'MessengerController@createTopic')->name('messenger.createTopic');

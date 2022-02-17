@@ -57,6 +57,9 @@ class UpdateDelegateRequest extends FormRequest
             'discount_code' => [
                 'string',
                 'required',
+                'without_spaces',
+                'max:6',
+                'unique:delegates,discount_code,' . request()->delegate_id,
             ],
             'facebook' => [
                 'string',

@@ -37,6 +37,8 @@ class StoreOrderRequest extends FormRequest
             'discount_code' => [
                 'string',
                 'nullable',
+                'without_spaces',
+                'max:6',
             ],
             'district_id' => [
                 'required',

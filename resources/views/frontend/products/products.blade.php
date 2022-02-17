@@ -70,7 +70,7 @@
                         <div class="col-lg-3">
                             <div class="product-card">
                                 <div class="product-img">
-                                    <a class="" href="{{ route('frontend.product',$product->id)}}"><img src="@if($product->photo) {{ $product->photo->getUrl() }} @endif" /></a>
+                                    <a class="" href="{{ route('frontend.product',$product->id)}}"><img src="@if($product->photo) {{ $product->photo->getUrl() }}  @else {{ asset('noimage.jpg') }} @endif" /></a>
                                     @auth
                                         @php
                                             $fav = \App\Models\ProductFavorite::where('product_id',$product->id)->where('user_id',Auth::id())->first();

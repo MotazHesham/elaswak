@@ -14,6 +14,7 @@ class CreateDelegatesTable extends Migration
             $table->string('facebook');
             $table->string('instagram');
             $table->string('youtube');
+            $table->decimal('discount', 15, 2)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

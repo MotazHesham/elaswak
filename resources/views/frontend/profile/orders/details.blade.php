@@ -86,19 +86,19 @@
     <div class="pt-4">
         @if ($status != 'canceled')
             <ul class="process-steps clearfix">
-                <li @if ($status == 'pending') class="active" @else class="done" @endif>
+                <li @if($status == 'pending') class="active" @else class="done" @endif>
                     <div class="icon">1</div>
                     <div class="title">تم الطلب</div>
                 </li>
-                <li @if ($status == 'on_review') class="active" @else class="done" @endif>
+                <li @if($status == 'on_review') class="active" @elseif($status == 'on_delivery' || $status == 'delivered') class="done" @endif>
                     <div class="icon">2</div>
                     <div class="title">قيد المراجعة</div>
                 </li>
-                <li @if ($status == 'on_delivery') class="active" @else class="done" @endif>
+                <li @if($status == 'on_delivery') class="active" @elseif($status == 'delivered') class="done" @endif>
                     <div class="icon">3</div>
                     <div class="title">مع المندوب </div>
                 </li>
-                <li @if ($status == 'delivered') class="active" @else class="done" @endif>
+                <li @if($status == 'delivered') class="done" @endif>
                     <div class="icon">4</div>
                     <div class="title">تم التوصيل </div>
                 </li>
@@ -154,16 +154,20 @@
                             <td>{{ $order->created_at }}</td>
                         </tr>
                         <tr>
-                            <td class="w-50 strong-600">كود الخصم:</td>
-                            <td>{{ $order->discount_code }}</td>
-                        </tr>
-                        <tr>
                             <td class="w-50 strong-600">حالة الطلب:</td>
                             <td> {{ trans('global.delivery_status.'. \App\Models\Order::DELIVERY_STATUS_SELECT[$order->delivery_status]) }}</td>
                         </tr>
                         <tr>
-                            <td class="w-50 strong-600"><b>أجمالي السعر:</b></td>
-                            <td style="color:#B896A2"><b>{{ $order_total_cost }} SR</b> </td>
+                            <td class="w-50 strong-600">كود الخصم:</td>
+                            <td>{{ $order->discount_code }}</td>
+                        </tr>
+                        <tr>
+                            <td class="w-50 strong-600"><b>الخصم:</b></td>
+                            <td style="color:#B896A2"><b>{{ $order->discount }} SR</b> </td>
+                        </tr>
+                        <tr>
+                            <td class="w-50 strong-600"><b>أجمالي السعر:</b><br> <small>بعد الخصم</small></td>
+                            <td style="color:#B896A2"><b>{{ $order->total_cost }} SR</b> </td>
                         </tr>
                     </table>
                 </div>
@@ -183,14 +187,8 @@
                                 <th>الأجمالي</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @php
-                                $total = 0;
-                            @endphp
-                            @foreach ($order->offers as $key => $orderOffer)
-                                @php
-                                    $total += $orderOffer->total_cost;
-                                @endphp
+                        <tbody> 
+                            @foreach ($order->offers as $key => $orderOffer) 
                                 <tr>
                                     <td> 
                                         @if($orderOffer->offer && $orderOffer->offer->photo)
@@ -224,14 +222,8 @@
                                 <th>الأجمالي</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @php
-                                $total = 0;
-                            @endphp
-                            @foreach ($order->products as $key => $orderProduct)
-                                @php
-                                    $total += $orderProduct->total_cost;
-                                @endphp
+                        <tbody> 
+                            @foreach ($order->products as $key => $orderProduct) 
                                 <tr>
                                     <td>
                                         @if($orderProduct->product && $orderProduct->product->photo)

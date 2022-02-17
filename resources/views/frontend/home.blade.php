@@ -44,7 +44,7 @@
                                 <i class="far fa-heart product-fav" data-id="{{ $offer->id }}" data-type="product"></i>
                             @endauth
                             <a class="" href="{{ route('frontend.offer', $offer->id) }}">
-                                <img src="@if($offer->photo) {{ $offer->photo->getUrl() }} @endif" /></a>
+                                <img src="@if($offer->photo) {{ $offer->photo->getUrl() }}  @else {{ asset('noimage.jpg') }} @endif" /></a>
                         </div>
                         <a class="" href="{{ route('frontend.offer', $offer->id) }}">
                             <p class="product-name">{{ $offer->name }}</p>
@@ -79,7 +79,7 @@
                         <a class="" href="{{ route('frontend.product', $product->id) }}">
                             <div class="product-card">
                                 <div class="product-img">
-                                    <img src="@if($product->photo) {{ $product->photo->getUrl() }} @endif" />
+                                    <img src="@if($product->photo) {{ $product->photo->getUrl() }}  @else {{ asset('noimage.jpg') }} @endif" />
                                     @auth
                                         @php
                                             $fav = \App\Models\ProductFavorite::where('product_id', $product->id)
@@ -110,7 +110,7 @@
         <div class="owl-one owl-carousel owl-theme owl-container">
             @foreach ($categories as $category)
                 <div class="item">
-                    <img class="slider-product" src="{{ $category->photo->getUrl('preview') }}" />
+                    <img class="slider-product" src="@if($category->photo) {{ $category->photo->getUrl('preview') }} @else {{ asset('noimage.jpg') }} @endif" />
                     <div class="slider-category-name">
                         <a href="categories.html">{{ $category->name }}</a>
                     </div>

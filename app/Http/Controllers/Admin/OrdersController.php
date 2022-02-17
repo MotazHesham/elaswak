@@ -11,6 +11,8 @@ use App\Models\District;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\delegate;
+use Carbon\Carbon;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +20,12 @@ use Yajra\DataTables\Facades\DataTables;
 
 class OrdersController extends Controller
 {
+
+    public function details(Request $request){
+        $order = Order::findOrFail($request->id);
+        $order->load('user', 'district', 'city', 'products', 'offers');
+        return view('frontend.profile.orders.details',compact('order'));
+    }
     public function index(Request $request)
     {
         abort_if(Gate::denies('order_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -124,6 +132,57 @@ class OrdersController extends Controller
     {
         $order->update($request->all());
 
+        if($request->delivery_status == 'delivered'){
+
+            if(!$order->done_status){
+
+                $delegate = delegate::find($order->delegate_id);
+                if($delegate){
+                    $targets = $delegate->delegateTargets()->wherePivot('delegate_id',$delegate->id)->wherePivot('achieved',0)->get();
+                    $done = str_replace('/', '-', $order->created_at);
+    
+                    foreach($targets as $row){ 
+                        $start_date = $row->start_date ? Carbon::createFromFormat(config('panel.date_format'), $row->start_date)->format('Y-m-d') : null;
+                        $end_date = $row->end_date ? Carbon::createFromFormat(config('panel.date_format'), $row->end_date)->format('Y-m-d') : null;
+
+                        $start = str_replace('/', '-', $start_date);
+                        $end = str_replace('/', '-', $end_date);
+    
+                        if(strtotime($start) < strtotime($done) && strtotime($end) > strtotime($done)){
+    
+                            $orders = $row->pivot->orders + 1;
+                            $row->pivot->orders = $orders;
+
+                            if($row->profit_type == 'percentage'){
+                                $row->pivot->profit += ($order->total_cost * ($row->profit / 100));
+                            }
+
+                            if($orders >= $row->num_of_orders){
+                                
+                                if($row->pivot->achieved == 0){
+                                    $row->pivot->achieved_date = date('Y-m-d H:i:s');
+                                }
+    
+                                $row->pivot->achieved = 1;
+                                if($row->profit_type == 'flat'){
+                                    $row->pivot->profit = $row->profit;
+                                }
+                            }
+    
+                            $row->pivot->save();
+                            
+                        }
+    
+                    }
+    
+                    $order->done_status = 1; 
+                    $order->save();
+
+                }
+
+            } 
+
+        } 
         return redirect()->route('admin.orders.index');
     }
 

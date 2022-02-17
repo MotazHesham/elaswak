@@ -9,7 +9,7 @@ class HomeController
     public function index()
     {
         $settings1 = [
-            'chart_title'           => 'Suppliers',
+            'chart_title'           => trans('cruds.supplier.title'),
             'chart_type'            => 'number_block',
             'report_type'           => 'group_by_date',
             'model'                 => 'App\Models\Supplier',
@@ -45,7 +45,7 @@ class HomeController
         }
 
         $settings2 = [
-            'chart_title'           => 'Delegates',
+            'chart_title'           => trans('cruds.delegate.title'),
             'chart_type'            => 'number_block',
             'report_type'           => 'group_by_date',
             'model'                 => 'App\Models\Delegate',
@@ -81,7 +81,7 @@ class HomeController
         }
 
         $settings3 = [
-            'chart_title'           => 'Orders',
+            'chart_title'           => trans('cruds.order.title'),
             'chart_type'            => 'number_block',
             'report_type'           => 'group_by_date',
             'model'                 => 'App\Models\Order',
@@ -117,7 +117,7 @@ class HomeController
         }
 
         $settings4 = [
-            'chart_title'           => 'Products',
+            'chart_title'           => trans('cruds.product.title'),
             'chart_type'            => 'number_block',
             'report_type'           => 'group_by_date',
             'model'                 => 'App\Models\Product',
@@ -153,7 +153,7 @@ class HomeController
         }
 
         $settings5 = [
-            'chart_title'           => 'Orders',
+            'chart_title'           => trans('cruds.order.title'),
             'chart_type'            => 'bar',
             'report_type'           => 'group_by_date',
             'model'                 => 'App\Models\Order',
@@ -162,7 +162,7 @@ class HomeController
             'aggregate_function'    => 'count',
             'filter_field'          => 'created_at',
             'group_by_field_format' => 'd/m/Y H:i:s',
-            'column_class'          => 'col-md-8',
+            'column_class'          => 'col-md-6',
             'entries_number'        => '5',
             'translation_key'       => 'order',
         ];
@@ -170,14 +170,15 @@ class HomeController
         $chart5 = new LaravelChart($settings5);
 
         $settings6 = [
-            'chart_title'        => 'Users',
+            'chart_title'        => trans('cruds.user.title'),
             'chart_type'         => 'pie',
             'report_type'        => 'group_by_string',
             'model'              => 'App\Models\User',
             'group_by_field'     => 'user_type',
             'aggregate_function' => 'count',
+            'where_raw'          => 'user_type IN ( "delegate" , "supplier" , "client") ',
             'filter_field'       => 'created_at',
-            'column_class'       => 'col-md-4',
+            'column_class'       => 'col-md-3',
             'entries_number'     => '5',
             'translation_key'    => 'user',
         ];
@@ -185,7 +186,7 @@ class HomeController
         $chart6 = new LaravelChart($settings6);
 
         $settings7 = [
-            'chart_title'           => 'Latest suppliers',
+            'chart_title'           => 'أخر المضافين من الموردين',
             'chart_type'            => 'latest_entries',
             'report_type'           => 'group_by_date',
             'model'                 => 'App\Models\Supplier',
@@ -216,7 +217,7 @@ class HomeController
         }
 
         $settings8 = [
-            'chart_title'           => 'Latest Delegates',
+            'chart_title'           => 'أخر المضافين من المسوقين',
             'chart_type'            => 'latest_entries',
             'report_type'           => 'group_by_date',
             'model'                 => 'App\Models\Delegate',
@@ -246,6 +247,21 @@ class HomeController
             $settings8['fields'] = [];
         }
 
-        return view('home', compact('chart5', 'chart6', 'settings1', 'settings2', 'settings3', 'settings4', 'settings7', 'settings8'));
+        $settings9 = [
+            'chart_title'        => 'الطلبات عن طريق أكواد الخصم',
+            'chart_type'         => 'pie',
+            'report_type'        => 'group_by_string',
+            'model'              => 'App\Models\Order',
+            'group_by_field'     => 'discount_code',
+            'aggregate_function' => 'count',
+            'filter_field'       => 'created_at',
+            'column_class'       => 'col-md-3',
+            'entries_number'     => '5',
+            'translation_key'    => 'order',
+        ];
+
+        $chart9 = new LaravelChart($settings9);
+
+        return view('home', compact('chart5', 'chart6', 'settings1', 'settings2', 'settings3', 'settings4', 'settings7', 'settings8','chart9'));
     }
 }

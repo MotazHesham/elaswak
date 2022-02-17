@@ -16,13 +16,13 @@
                     <li>
                         <a class="" href="{{ route('frontend.register.delegate')}}">
                             <div class="check-radio"></div>
-                            مورد
+                            مسوق
                         </a>
                     </li>
                     <li>
                         <a class="" href="{{ route('frontend.register.supplier')}}">
                             <div class="check-radio"></div>
-                            مندوب
+                            مورد
                         </a>
                     </li>
                 </ul>
@@ -104,8 +104,11 @@
                         <div class="form-group"> 
                             <div class="payment-page-select"> 
                                 <select class="my-select form-control {{ $errors->has('city') ? 'is-invalid' : '' }}" name="city_id"
-                                    id="city_id" required> 
-                                    <option value="">المدينة</option>
+                                    id="city_id" required>  
+                                    @foreach ($cities as $id => $entry)
+                                        <option value="{{ $id }}" {{ old('city_id') == $id ? 'selected' : '' }}>
+                                            {{ $entry }}</option>
+                                    @endforeach
                                 </select>
                                 @if ($errors->has('city_id'))
                                     <div class="alert-danger">

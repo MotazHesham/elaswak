@@ -44,6 +44,14 @@ class StoreOfferRequest extends FormRequest
                 'required',
                 'integer',
             ],
+            'start_date' => [
+                'required',
+                'date_format:' . config('panel.date_format'),
+            ],
+            'end_date' => [
+                'required',
+                'date_format:' . config('panel.date_format'),
+            ],
         ];
     }
 }

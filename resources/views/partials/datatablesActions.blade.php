@@ -1,7 +1,13 @@
 @can($viewGate)
-    <a class="btn btn-xs btn-primary" href="{{ route('admin.' . $crudRoutePart . '.show', $row->id) }}">
-        {{ trans('global.view') }}
-    </a>
+    @if($crudRoutePart == 'orders')  
+        <button type="button" class="btn btn-xs btn-primary" onclick="order_details({{$row->id}})" data-toggle="modal" data-target=".bd-example-modal-lg">
+            {{ trans('global.view') }}
+        </button>
+    @else  
+        <a class="btn btn-xs btn-primary" href="{{ route('admin.' . $crudRoutePart . '.show', $row->id) }}">
+            {{ trans('global.view') }}
+        </a>
+    @endif
 @endcan
 @can($editGate)
     <a class="btn btn-xs btn-info" href="{{ route('admin.' . $crudRoutePart . '.edit', $row->id) }}">

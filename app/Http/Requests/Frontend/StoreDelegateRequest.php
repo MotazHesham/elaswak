@@ -58,6 +58,9 @@ class StoreDelegateRequest extends FormRequest
             'discount_code' => [
                 'string',
                 'required',
+                'without_spaces',
+                'max:6',
+                'unique:delegates',
             ],
             'facebook' => [
                 'string',
