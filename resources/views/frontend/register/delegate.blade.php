@@ -146,7 +146,7 @@
                             @endif
                         </div>
                         <div class="form-group">
-                            <input type="text" placeholder="Facebook" name="facebook" class="{{ $errors->has('facebook') ? 'is-invalid' : '' }}"   value="{{ old('facebook') }}" required/>
+                            <input type="text" placeholder="Facebook" name="facebook" class="{{ $errors->has('facebook') ? 'is-invalid' : '' }}"   value="{{ old('facebook') }}"  />
                             @if ($errors->has('facebook'))
                                 <div class="alert-danger">
                                     {{ $errors->first('facebook') }}
@@ -156,7 +156,7 @@
                     </div>
                     <div class="form-line">
                         <div class="form-group">
-                            <input type="text" placeholder="Instagram" name="instagram" class="{{ $errors->has('instagram') ? 'is-invalid' : '' }}"   value="{{ old('instagram') }}" required/>
+                            <input type="text" placeholder="Instagram" name="instagram" class="{{ $errors->has('instagram') ? 'is-invalid' : '' }}"   value="{{ old('instagram') }}"  />
                             @if ($errors->has('instagram'))
                                 <div class="alert-danger">
                                     {{ $errors->first('instagram') }}
@@ -164,7 +164,7 @@
                             @endif
                         </div>
                         <div class="form-group">
-                            <input type="text" placeholder="Youtube" name="youtube" class="{{ $errors->has('youtube') ? 'is-invalid' : '' }}"   value="{{ old('youtube') }}" required/>
+                            <input type="text" placeholder="Youtube" name="youtube" class="{{ $errors->has('youtube') ? 'is-invalid' : '' }}"   value="{{ old('youtube') }}"  />
                             @if ($errors->has('youtube'))
                                 <div class="alert-danger">
                                     {{ $errors->first('youtube') }}

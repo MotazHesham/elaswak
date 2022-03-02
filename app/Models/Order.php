@@ -13,21 +13,21 @@ class Order extends Model
     use Auditable;
 
     public const PAYMENT_STATUS_SELECT = [
-        'unpaid' => 'Un Paid',
-        'paid'   => 'Paid',
+        'unpaid' => 'لم يتم الدفع',
+        'paid'   => 'تم الدفع',
     ];
 
     public const PAYMENT_TYPE_SELECT = [
-        'cash_on_delivery' => 'Cash On Delivery',
-        'credit_card'      => 'Credit Card',
+        'cash_on_delivery' => 'الدفع عند الأستلام',
+        'credit_card'      => 'الدفع أونلاين',
     ];
 
     public const DELIVERY_STATUS_SELECT = [
-        'pending'     => 'Pending',
-        'on_review'   => 'On Review',
-        'on_delivery' => 'On Delivery',
-        'delivered'   => 'Delivered',
-        'canceled'    => 'Canceled',
+        'pending'     => 'قيد الأنتطار',
+        'on_review'   => 'قيد المراجعة',
+        'on_delivery' => 'مع المندوب',
+        'delivered'   => 'تم التوصيل',
+        'canceled'    => 'تم الألغاء',
     ];
 
     public $table = 'orders';

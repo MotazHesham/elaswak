@@ -49,11 +49,7 @@ class UpdateDelegateRequest extends FormRequest
             'address' => [
                 'string',
                 'required',
-            ],
-
-            'photo' => [
-                'required',
-            ],
+            ], 
             'discount_code' => [
                 'string',
                 'required',

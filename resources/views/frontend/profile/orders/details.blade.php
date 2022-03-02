@@ -155,19 +155,21 @@
                         </tr>
                         <tr>
                             <td class="w-50 strong-600">حالة الطلب:</td>
-                            <td> {{ trans('global.delivery_status.'. \App\Models\Order::DELIVERY_STATUS_SELECT[$order->delivery_status]) }}</td>
+                            <td> {{ \App\Models\Order::DELIVERY_STATUS_SELECT[$order->delivery_status] }}</td>
                         </tr>
+                        @if($order->discount)
+                            <tr>
+                                <td class="w-50 strong-600">كود الخصم:</td>
+                                <td>{{ $order->discount_code }}</td>
+                            </tr>
+                            <tr>
+                                <td class="w-50 strong-600"><b>الخصم:</b></td>
+                                <td style="color:#B896A2"><b>  {{ $order->discount . ' ريال' }}</b> </td>
+                            </tr>
+                        @endif
                         <tr>
-                            <td class="w-50 strong-600">كود الخصم:</td>
-                            <td>{{ $order->discount_code }}</td>
-                        </tr>
-                        <tr>
-                            <td class="w-50 strong-600"><b>الخصم:</b></td>
-                            <td style="color:#B896A2"><b>{{ $order->discount }} SR</b> </td>
-                        </tr>
-                        <tr>
-                            <td class="w-50 strong-600"><b>أجمالي السعر:</b><br> <small>بعد الخصم</small></td>
-                            <td style="color:#B896A2"><b>{{ $order->total_cost }} SR</b> </td>
+                            <td class="w-50 strong-600"><b>أجمالي السعر:</b>@if($order->discount)<br> <small>بعد الخصم</small>@endif</td>
+                            <td style="color:#B896A2"><b> {{ $order->total_cost . ' ريال' }}</b> </td>
                         </tr>
                     </table>
                 </div>
@@ -191,17 +193,19 @@
                             @foreach ($order->offers as $key => $orderOffer) 
                                 <tr>
                                     <td> 
-                                        @if($orderOffer->offer && $orderOffer->offer->photo)
-                                            <img src="{{ $orderOffer->offer->photo->getUrl('thumb') }}" alt="">
-                                        @endif 
-                                        <br>
-                                        {{ $orderOffer->offer->name ?? '' }}
+                                        <a href="{{ route('frontend.offer',$orderOffer->offer->id)}}">
+                                            @if($orderOffer->offer && $orderOffer->offer->photo)
+                                                <img src="{{ $orderOffer->offer->photo->getUrl('thumb') }}" alt="">
+                                            @endif 
+                                            <br>
+                                            {{ $orderOffer->offer->name ?? '' }}
+                                        </a>
                                     </td>
                                     <td>
                                         {{ $orderOffer->quantity }}
                                     </td>
                                     <td>
-                                        <span>{{ $orderOffer->total_cost . ' SR' }}</span>
+                                        <span>{{ $orderOffer->total_cost . ' ريال' }}</span>
                                     </td>
                                 </tr>
                             @endforeach
@@ -226,17 +230,19 @@
                             @foreach ($order->products as $key => $orderProduct) 
                                 <tr>
                                     <td>
-                                        @if($orderProduct->product && $orderProduct->product->photo)
-                                            <img src="{{ $orderProduct->product->photo->getUrl('thumb') }}" alt="">
-                                        @endif 
-                                        <br>
-                                        {{ $orderProduct->product->name ?? '' }}
+                                        <a href="{{ route('frontend.product',$orderProduct->product->id)}}">
+                                            @if($orderProduct->product && $orderProduct->product->photo)
+                                                <img src="{{ $orderProduct->product->photo->getUrl('thumb') }}" alt="">
+                                            @endif 
+                                            <br>
+                                            {{ $orderProduct->product->name ?? '' }}
+                                        </a>
                                     </td>
                                     <td>
                                         {{ $orderProduct->quantity }}
                                     </td>
                                     <td>
-                                        <span>{{ $orderProduct->total_cost . ' SR' }}</span>
+                                        <span>{{ $orderProduct->total_cost . ' ريال' }}</span>
                                     </td>
                                 </tr>
                             @endforeach

@@ -58,19 +58,19 @@
 
                                     <div class="order-info order-price">
                                         <h6 class="order-info-mob-title">السعر</h6>
-                                        <p>SR
-                                            {{ $order->total_cost }}
+                                        <p> 
+                                            {{ $order->total_cost  . ' ريال'}}
                                         </p>
                                     </div> 
 
                                     <div class="order-info order-payment-way">
                                         <h6 class="order-info-mob-title">الدفع</h6>
-                                        <p>{{ trans('global.payment_type.'. \App\Models\Order::PAYMENT_TYPE_SELECT[$order->payment_type]) }}</p>
+                                        <p>{{ \App\Models\Order::PAYMENT_TYPE_SELECT[$order->payment_type] }}</p>
                                     </div>
 
                                     <div class="order-info order-status">
                                         <h6 class="order-info-mob-title">الحاله</h6>
-                                        <p> {{ trans('global.delivery_status.'. \App\Models\Order::DELIVERY_STATUS_SELECT[$order->delivery_status]) }}</p>
+                                        <p> {{ \App\Models\Order::DELIVERY_STATUS_SELECT[$order->delivery_status] }}</p>
                                     </div>
 
                                     <div class="order-info order-status order-dets">
@@ -129,19 +129,19 @@
 
                                     <div class="order-info order-price">
                                         <h6 class="order-info-mob-title">السعر</h6>
-                                        <p>SR
-                                            {{ $order->total_cost }}
+                                        <p>
+                                            {{ $order->total_cost  . ' ريال'}}
                                         </p>
                                     </div> 
 
                                     <div class="order-info order-payment-way">
                                         <h6 class="order-info-mob-title">الدفع</h6>
-                                        <p>{{ trans('global.payment_type.'. \App\Models\Order::PAYMENT_TYPE_SELECT[$order->payment_type]) }}</p>
+                                        <p>{{ \App\Models\Order::PAYMENT_TYPE_SELECT[$order->payment_type] }}</p>
                                     </div>
 
                                     <div class="order-info order-status">
                                         <h6 class="order-info-mob-title">الحاله</h6>
-                                        <p> {{ trans('global.delivery_status.'. \App\Models\Order::DELIVERY_STATUS_SELECT[$order->delivery_status]) }}</p>
+                                        <p> {{ \App\Models\Order::DELIVERY_STATUS_SELECT[$order->delivery_status] }}</p>
                                     </div>
 
                                     <div class="order-info order-status order-dets">

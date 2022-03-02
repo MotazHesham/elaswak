@@ -112,8 +112,8 @@
                                                     <div class="name-price-order">
                                                         <p class="name-pop">{{ $cart->product->name ?? '' }}
                                                         </p>
-                                                        <p class="price-pop">{{ $cart->product->price ?? '' }}
-                                                            SR</p>
+                                                        <p class="price-pop">{{ $cart->product->price ? $cart->product->price  . ' ريال': '' }}
+                                                            </p>
                                                         <p class="total-quantity">الكمية <span id="quantity-product-{{ $cart->id }}">{{ $cart->quantity }}</span></p>
                                                         <i class="far fa-trash-alt"
                                                             onclick="delete_cart({{ $cart->product_id }},1,'product',{{ $cart->id }})"></i>
@@ -121,8 +121,8 @@
                                                 </div> 
                                                 <p class="total-price" >الاجمالي: 
                                                     <span id="product-{{ $cart->id }}">
-                                                        {{ $cart->total_cost }}
-                                                    </span> SR
+                                                        {{ $cart->total_cost . ' ريال'}}
+                                                    </span>
                                                 </p>
 
                                                 @if (!$loop->last)
@@ -152,8 +152,8 @@
                                                     <div class="name-price-order">
                                                         <p class="name-pop">{{ $cart->offer->name ?? '' }}
                                                         </p>
-                                                        <p class="price-pop">{{ $cart->offer->price ?? '' }}
-                                                            SR</p>
+                                                        <p class="price-pop">{{ $cart->offer->price ? $cart->offer->price  . ' ريال' : '' }}
+                                                            </p>
                                                         <p class="total-quantity">الكمية <span id="quantity-offer-{{ $cart->id }}">{{ $cart->quantity }}</span>
                                                         </p>
                                                         <i class="far fa-trash-alt"
@@ -162,8 +162,8 @@
                                                 </div>
                                                 <p class="total-price" >الاجمالي: 
                                                     <span id="offer-{{ $cart->id }}">
-                                                        {{ $cart->total_cost }}
-                                                    </span> SR
+                                                        {{ $cart->total_cost  . ' ريال'}}
+                                                    </span>  
                                                 </p>
                                                 @if (!$loop->last)
                                                     <hr>
@@ -188,10 +188,10 @@
                     </div>
                     <a href="{{ route('frontend.favorites.index', ['type' => 'products']) }}"><i
                             class="far fa-heart header-signs"></i></a>
-                    <select class="language-select" onchange="location = this.value;">
+                    {{-- <select class="language-select" onchange="location = this.value;">
                         <option value="" class="arabic-lang">AR</option>
                         <option value="">EN</option>
-                    </select>
+                    </select> --}}
                 </div>
                 <i class="fas fa-align-right mobile-menu-icon"></i>
                 <div class="mobile-menu">

@@ -11,9 +11,9 @@ class CreateDelegatesTable extends Migration
         Schema::create('delegates', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('discount_code')->unique();
-            $table->string('facebook');
-            $table->string('instagram');
-            $table->string('youtube');
+            $table->string('facebook')->nullable();
+            $table->string('instagram')->nullable();
+            $table->string('youtube')->nullable();
             $table->decimal('discount', 15, 2)->nullable();
             $table->timestamps();
             $table->softDeletes();

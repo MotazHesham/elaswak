@@ -144,15 +144,17 @@
                 </div>
             </div>
 
-            <div class="row shopping-cart-pay-information">
-                <div class="shopping-cart-totel-pay">
-                    <p class="total-p-cart">الاجمالي</p>
-                    <div class="price-pay-div">
-                        <p class="total-price-cart"><span id="cart-total-cost">{{ $total }}</span> SR</p>
-                        <a class="btn go-pay" href="{{ route('frontend.payment.index') }}">الدفع</a>
+            @if($productCarts->count() > 0 || $offerCarts->count() > 0 )
+                <div class="row shopping-cart-pay-information">
+                    <div class="shopping-cart-totel-pay">
+                        <p class="total-p-cart">الاجمالي</p>
+                        <div class="price-pay-div">
+                            <p class="total-price-cart"><span id="cart-total-cost">{{ $total }}</span> SR</p>
+                            <a class="btn go-pay" href="{{ route('frontend.payment.index') }}">الدفع</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
 @endsection

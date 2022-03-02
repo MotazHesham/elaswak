@@ -6,6 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <title>{{ trans('panel.site_title') }}</title>
     <!--style css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/style.css') }}" />
 
@@ -100,7 +101,7 @@
         }
 
         .orders-store-icon{
-            width: 600px
+            width: 800px
         }
     </style>
 
@@ -161,7 +162,7 @@
                     <h6 class="footer-title">الفئات</h6>
                     <ul class="menu-footer">
                         @foreach ($categories as $category)
-                            <li><a href="#">{{ $category->name }}</a></li>
+                            <li><a href="{{ route('frontend.offers',['category_id' => $category->id])}}">{{ $category->name }}</a></li>
                         @endforeach
                     </ul>
                 </div>

@@ -158,7 +158,7 @@
                     <span class="help-block">{{ trans('cruds.delegate.fields.youtube_helper') }}</span>
                 </div>  
                 <div class="form-group col-md-3">
-                    <label class="required" for="photo">{{ trans('cruds.user.fields.photo') }}</label>
+                    <label for="photo">{{ trans('cruds.user.fields.photo') }}</label>
                     <div class="needsclick dropzone {{ $errors->has('photo') ? 'is-invalid' : '' }}" id="photo-dropzone">
                     </div>
                     @if($errors->has('photo'))

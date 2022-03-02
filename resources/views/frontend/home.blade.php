@@ -112,7 +112,7 @@
                 <div class="item">
                     <img class="slider-product" src="@if($category->photo) {{ $category->photo->getUrl('preview') }} @else {{ asset('noimage.jpg') }} @endif" />
                     <div class="slider-category-name">
-                        <a href="categories.html">{{ $category->name }}</a>
+                        <a href="{{ route('frontend.offers',['category_id' => $category->id])}}">{{ $category->name }}</a>
                     </div>
                 </div>
             @endforeach

@@ -37,7 +37,7 @@ class PaymentController extends Controller
     }
 
     public function payment(StoreOrderRequest $request){
-        if($request->has('discount_code')){
+        if($request->has('discount_code') && $request->discount_code != null){
             $delegate = Delegate::where('discount_code',$request->discount_code)->first();
     
             if(!$delegate){
@@ -95,7 +95,7 @@ class PaymentController extends Controller
         }
         $order->save();
 
-        Alert::success('تم طلب الأوردر بنجاح');
+        Alert::success('تم الطلب بنجاح');
         return redirect()->route('frontend.home');
     }
 }

@@ -63,16 +63,13 @@ class StoreDelegateRequest extends FormRequest
                 'unique:delegates',
             ],
             'facebook' => [
-                'string',
-                'required',
+                'string', 
             ],
             'instagram' => [
-                'string',
-                'required',
+                'string', 
             ],
             'youtube' => [
-                'string',
-                'required',
+                'string', 
             ], 
             'terms_conditions' => [ 
                 'required',

@@ -121,7 +121,7 @@
                         </div>  
                     </div> 
                     <button type="submit" class="btn confirm-credit-card">
-                        Confirm
+                        تأكيد
                     </button>
                 </form>
             </div>

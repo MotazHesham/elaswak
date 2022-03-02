@@ -9,7 +9,7 @@
                 <div class="search-filters">
                     <div class="mb-3 text-center">
                         <a class="btn btn-filter btn-block rounded-pill btn-lg">العروض</a>
-                        <a class="btn btn-outline-filter btn-block rounded-pill btn-lg" href="{{ route('frontend.products')}}">المنتجات</a>
+                        <a class="btn btn-outline-filter btn-block rounded-pill btn-lg" href="{{ route('frontend.products',['category_id' => $category_id])}}">المنتجات</a>
                     </div>
                     <hr>
                     <div>
@@ -87,7 +87,14 @@
                             </div>
                         </div> 
                     @empty 
-                        <div class="alert alert-notmateched text-center">لم يتم العثور علي أي بيانات مطابقة <b>"{{ $search ?? ''}}"</b></div>
+                        <div class="alert alert-notmateched text-center">
+                            لم يتم العثور علي أي بيانات مطابقة <b>"{{ $search ?? ''}}"</b>
+                            <form action="{{ route('frontend.products') }}">
+                                <input type="hidden" placeholder="" name="search" value="{{ $search ?? '' }}" />
+                                <small>البحث في المنتجات</small>
+                                <button type="submit" class="btn btn-info"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div> 
                     @endforelse  
                 </div>
                 <div class="mt-5">
