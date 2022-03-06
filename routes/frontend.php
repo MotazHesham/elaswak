@@ -51,6 +51,12 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
         Route::get('profile','ProfileController@profile')->name('profile');
         Route::post('profile/update','ProfileController@profile_update')->name('profile.update');
         Route::post('profile/update_password','ProfileController@update_password')->name('profile.update_password');
+
+        // rating
+        Route::post('product/rate','ProductsController@rate')->name("product.rate"); 
+        Route::get('product/rating/{id}','ProductsController@rating')->name("product.rating"); 
+        Route::post('offer/rate','OffersController@rate')->name("offer.rate");
+        Route::get('offer/rating/{id}','OffersController@rating')->name("offer.rating");
     });
 
 });

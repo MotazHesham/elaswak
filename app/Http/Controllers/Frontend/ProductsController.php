@@ -6,9 +6,21 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product; 
 use App\Models\ProductCategory; 
+use App\Models\ProductRate; 
+use Auth;
 
 class ProductsController extends Controller
 {
+    public function rate(Request $request){ 
+        ProductRate::updateOrCreate(
+            ['product_id' =>  $request->id,'user_id' => Auth::id()],
+            ['rate' => $request->rate , 'review' => '.']
+        );
+    }
+    public function rating($id){ 
+        $product = Product::findOrFail($id);
+        return view('frontend.products.ratings',compact('product'));
+    }
 
     public function products(Request $request){
         
@@ -77,5 +89,6 @@ class ProductsController extends Controller
         })->orderBy('created_at','desc')->get()->take(6); 
         return view('frontend.products.details',compact('product','products'));
     }
+
 
 }

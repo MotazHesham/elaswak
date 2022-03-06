@@ -80,6 +80,11 @@ class Offer extends Model implements HasMedia
         return $this->hasMany(OfferRate::class, 'offer_id', 'id');
     }
 
+    public function avgRating()
+    {
+        return $this->offerOfferRates->avg('rate');
+    }
+    
     public function categories()
     {
         return $this->belongsToMany(ProductCategory::class);

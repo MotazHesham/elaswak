@@ -48,8 +48,8 @@
                     <img src="@if($product->photo) {{ $product->photo->getUrl() }}  @else {{ asset('noimage.jpg') }} @endif" id="main_product_image" width="" />
                 </div>
                 <div class="customer-opinins-div">
-                    <div class="customers-opinins">
-                        <a href="ratings.html"> أراء العملاء <span>(3)</span></a>
+                    <div class="customers-opinins"> 
+                        <a href="{{ route('frontend.product.rating',$product->id) }}"> أراء العملاء <span>({{$product->productProductRates->count()}})</span></a>
                         <div class="rating rating2">
                             <!--
                                         <a href="#5" title="Give 5 stars">★</a>
@@ -71,32 +71,35 @@
                                     </symbol>
                                 </svg>
                             </div>
+                            @php
+                                $rate = $product->productProductRates()->where('user_id',Auth::id())->first()->rate ?? 0;
+                            @endphp
                             <div class="star-container">
-                                <input type="radio" name="star" id="five" />
+                                <input type="radio" name="star" data-product_id="{{$product->id}}" id="five" value="5" @if($rate == 5) checked @endif/>
                                 <label for="five">
                                     <svg class="star">
                                         <use xlink:href="#star" />
                                     </svg>
                                 </label>
-                                <input type="radio" name="star" id="four" />
+                                <input type="radio" name="star" data-product_id="{{$product->id}}" id="four" value="4" @if($rate == 4) checked @endif/>
                                 <label for="four">
                                     <svg class="star">
                                         <use xlink:href="#star" />
                                     </svg>
                                 </label>
-                                <input type="radio" name="star" id="three" />
+                                <input type="radio" name="star" data-product_id="{{$product->id}}" id="three" value="3" @if($rate == 3) checked @endif/>
                                 <label for="three">
                                     <svg class="star">
                                         <use xlink:href="#star" />
                                     </svg>
                                 </label>
-                                <input type="radio" name="star" id="two" />
+                                <input type="radio" name="star" data-product_id="{{$product->id}}" id="two" value="2" @if($rate == 2) checked @endif/>
                                 <label for="two">
                                     <svg class="star">
                                         <use xlink:href="#star" />
                                     </svg>
                                 </label>
-                                <input type="radio" name="star" id="one" />
+                                <input type="radio" name="star" data-product_id="{{$product->id}}" id="one" value="1" @if($rate == 1) checked @endif/>
                                 <label for="one">
                                     <svg class="star">
                                         <use xlink:href="#star" />
@@ -136,4 +139,14 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts') 
+    <script>
+        $('input[type=radio][name=star]').change(function() {  
+            $.post('{{ route('frontend.product.rate') }}', {_token:'{{ csrf_token() }}', id:$(this).data('product_id'), rate:this.value}, function(data){ 
+
+            });
+        });
+    </script>
 @endsection

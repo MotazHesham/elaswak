@@ -6,9 +6,22 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Offer; 
 use App\Models\ProductCategory; 
+use App\Models\OfferRate; 
+use Auth;
 
 class OffersController extends Controller
 {
+    public function rate(Request $request){ 
+        OfferRate::updateOrCreate(
+            ['offer_id' =>  $request->id,'user_id' => Auth::id()],
+            ['rate' => $request->rate , 'review' => '.']
+        );
+    }
+
+    public function rating($id){ 
+        $offer = Offer::findOrFail($id);
+        return view('frontend.offers.ratings',compact('offer'));
+    }
     
     public function offers(Request $request){
         

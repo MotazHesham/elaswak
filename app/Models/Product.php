@@ -56,6 +56,11 @@ class Product extends Model implements HasMedia
         return $this->hasMany(ProductRate::class, 'product_id', 'id');
     }
 
+    public function avgRating()
+    {
+        return $this->productProductRates->avg('rate');
+    }
+
     public function productsOffers()
     {
         return $this->belongsToMany(Offer::class)->withPivot(['quantity']);
